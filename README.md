@@ -1,16 +1,68 @@
-# React + Vite
+# HALLA ACADEMY — المنصة التعليمية لفنون المكياج الاحترافي
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+منصة تعليمية رقمية فاخرة مبنية بـ **React.js** و **Vite**، تقودها خبيرة التجميل والمدرّبة المعتمدة **حلا سامي**. صُممت المنصة لتلائم أرقى معايير دور التجميل والموضة العالمية (Haute-Couture / Editorial Aesthetic)، وتوفر تجربة متكاملة متوافقة مع الحواسب والشاشات الصغيرة والهواتف الذكية.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## المميزات الأساسية للمنصة (Key Features)
 
-## React Compiler
+1. **الهوية البصرية والطباعة الفاخرة (Couture Typography & Palette):**
+   - ألوان ملكية مستوحاة من المخمل النبيذي (`#7A1C2E`) والورد العتيق (`#F0D8D6` / `#C5899A`).
+   - خطوط طباعية نقية وعصرية: **IBM Plex Sans Arabic** للعناوين والمحتوى العربي، و **Cormorant Garamond** للأرقام والشعار اللاتيني.
+   - زوايا هندسية حادة ودقيقة (`2px`) وحدود شعرية رقيقة مستوحاة من التصاميم التحريرية لمجلات الجمال.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. **أقسام الصفحة الرئيسية (Core Sections):**
+   - **الهيرو (Hero):** مشهد سينمائي عالي الدقة، فاصل شعري أنيق، وأزرار توجيه واضحة.
+   - **شريط الاعتمادات (Trust Strip):** 5 بطاقات موثقة للشهادات، والورش بالقاهرة وطرابلس، والظهور الإعلامي.
+   - **عن حلا سامي (About Hala):** بورتريه فوتوغرافي عالي الدقة بإطار إزاحة فاخر مع رسالة وفلسفة حلا للمتدربات.
+   - **مسارات الكورس (Course Tracks):**
+     - مسار **"أتعلّم لنفسي" (FOR YOU)**: مكياج يومي وسهرات واختيار المنتجات المناسبة.
+     - مسار **"أطوّر مهاراتي للاحتراف" (PROFESSIONAL)**: تقنيات مكياج العرائس (Bridal HD)، وبناء الشنطة، واستقبال العميلات.
+   - **وحدات المنهج الست (Modules 01 - 06):** ترقيم لاتيني بارز `01 - 06` مع استعراض تفاعلي لتفاصيل ومخرجات كل وحدة.
+   - **مشغل الدرس المجاني (Free 20-Min Masterclass):** مشغل تفاعلي عالي الدقة مع فصول زمنية محددة.
+   - **آراء المتدربات (Stories):** استعراض حقيقي لقصص وتطبيقات المتدربات.
+   - **الأسئلة الشائعة وتذييل الأكاديمية (FAQ & Footer).**
 
-## Expanding the ESLint configuration
+3. **النوافذ التفاعلية الفاخرة (Luxury Couture Modals):**
+   - **نافذة الاشتراك والدفع (Checkout Modal):** تصميم معماري من عمودين يعرض ملخص المسار المختار مع وسائل دفع محلية وعربية (إنستاباي Instapay، بطاقات بنكية، محافظ كاش، تقسيط تابي/فاليو)، مع حقل كود الخصم (جربي `HALA10`).
+   - **بوابة المتدربات (Student LMS Portal):** تجربة حية لحساب المتدربة، تتبع نسبة الإتمام، تشغيل الدروس، تحميل ملفات الـ PDF، توجيه أسئلة لحلا سامي، وعرض الشهادة المعتمدة الرسمية.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## التشغيل محلياً (Local Development)
+
+```bash
+# تثبيت الاعتماديات
+npm install
+
+# تشغيل خادم التطوير المحلي
+npm run dev
+
+# بناء النسخة الإنتاجية
+npm run build
+```
+
+---
+
+## هيكلة المشروع (Project Structure)
+
+```
+hala-makeup/
+├── public/
+│   └── assets/
+│       └── images/       # الصور السينمائية وبورتريهات الأكاديمية
+├── src/
+│   ├── components/       # مكونات واجهة المستخدم (Hero, About, Course, Modals...)
+│   ├── context/          # إدارة الحالة العامة للتطبيق (AppContext)
+│   ├── data/             # بيانات الكورس، الدروس، الأسئلة والتقييمات
+│   ├── styles/           # ملفات التنسيق (theme.css, components.css)
+│   ├── App.jsx           # المكون الرئيسي
+│   └── main.jsx          # نقطة انطلاق التطبيق
+├── index.html            # صفحة HTML الرئيسية مع الخطوط والوسوم الفاخرة
+├── vite.config.js        # إعدادات Vite
+└── package.json
+```
+
+---
+
+© Halla Academy. جميع الحقوق محفوظة.

@@ -1,0 +1,115 @@
+:root {
+  /* Brand Luxury Palette from Design Mockup */
+  --color-primary: #7A1C2E;
+  --color-primary-dark: #581220;
+  --color-primary-light: #94253B;
+  --color-primary-subtle: #FDF7F8;
+  
+  --color-accent-rose: #C5899A;
+  --color-accent-soft: #F0D8D6;
+  --color-accent-champagne: #FAF5F4;
+
+  /* Neutrals */
+  --color-noir: #1A1A1A;
+  --color-noir-card: #2B2325;
+  --color-text-main: #1A1A1A;
+  --color-text-muted: #4A3A3D;
+  --color-text-subtle: #7A6568;
+  --color-border: #F0D8D6;
+  --color-border-muted: #C5899A;
+  --color-white: #FFFFFF;
+
+  /* Refined Modern Luxury Typography */
+  --font-serif: 'IBM Plex Sans Arabic', sans-serif;
+  --font-luxury: 'Cormorant Garamond', 'Marcellus', serif;
+  --font-sans: 'IBM Plex Sans Arabic', sans-serif;
+
+  /* Sharp Luxury Architecture (2px minimal radius from design reference) */
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+
+  /* Transitions */
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.28s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.9;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+::-webkit-scrollbar-thumb {
+  background: #E8CFD2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-rose);
+}
+
+.font-luxury {
+  font-family: var(--font-luxury);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
