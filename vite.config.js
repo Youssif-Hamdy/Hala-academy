@@ -6,5 +6,8 @@ export default defineConfig({
   server: {
     port: 3000,
     open: false,
+    watch: {
+      ignored: ['**/public/assets/**', '**/*.MOV', '**/*.mov', '**/*.mp4', '**/*.png', '**/*.jpg'],
+    },
   },
 });

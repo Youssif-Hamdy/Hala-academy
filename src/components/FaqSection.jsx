@@ -10,77 +10,62 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faqs" style={{ padding: '96px 24px', background: '#FFFFFF', borderTop: '1px solid #F0D8D6' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <div style={{ maxWidth: '640px', marginBottom: '40px' }}>
-          <div className="section-label">
-            الأسئلة الشائعة
+    <section id="faq" className="faq-section" aria-label="الأسئلة الشائعة">
+      <div className="container">
+        <div className="faq-container">
+          <div style={{ maxWidth: '680px', marginBottom: 'var(--spacing-600)' }}>
+            <div className="section-eyebrow caption-3">
+              الأسئلة الشائعة
+            </div>
+            <h2 className="section-title heading-2">
+              إجابات دقيقة على كل ما يشغل بالك
+            </h2>
+            <p className="body-2" style={{ color: 'var(--color-text-muted)' }}>
+              كل ما تحتاجين معرفته حول المنهج، الوصول للدروس، الشهادات المعتمدة، وطرق المتابعة والتطبيق.
+            </p>
           </div>
-          <h2 className="section-title">
-            إجابات على استفساراتك
-          </h2>
-        </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {faqs.map((faq, i) => {
-            const isOpen = openIdx === i;
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {faqs.map((faq, i) => {
+              const isOpen = openIdx === i;
 
-            return (
-              <div
-                key={i}
-                style={{
-                  borderTop: '1px solid #C5899A',
-                  borderBottom: i === faqs.length - 1 ? '1px solid #C5899A' : 'none'
-                }}
-              >
-                <div
-                  onClick={() => toggleFaq(i)}
-                  style={{
-                    padding: '24px 0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
-                    userSelect: 'none',
-                    fontWeight: 600,
-                    fontSize: '17px',
-                    color: isOpen ? '#7A1C2E' : '#1A1A1A'
-                  }}
-                >
-                  <span>{faq.q}</span>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#7A1C2E"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      transform: isOpen ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s',
-                      flexShrink: 0,
-                      marginRight: '12px'
-                    }}
+              return (
+                <div key={i} className="faq-item">
+                  <div
+                    onClick={() => toggleFaq(i)}
+                    className={`faq-trigger title-3 ${isOpen ? 'open' : ''}`}
+                    aria-expanded={isOpen}
                   >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </div>
-
-                {isOpen && (
-                  <div style={{
-                    paddingBottom: '24px',
-                    fontSize: '15.5px',
-                    lineHeight: '1.9',
-                    color: '#4A3A3D'
-                  }}>
-                    {faq.a}
+                    <span>{faq.q}</span>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{
+                        transform: isOpen ? 'rotate(180deg)' : 'none',
+                        transition: 'transform var(--duration-fast) var(--motion-base)',
+                        flexShrink: 0,
+                        marginRight: 'var(--spacing-200)'
+                      }}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
                   </div>
-                )}
-              </div>
-            );
-          })}
+
+                  {isOpen && (
+                    <div className="faq-answer body-3">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

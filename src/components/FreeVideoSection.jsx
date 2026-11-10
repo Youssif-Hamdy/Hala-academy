@@ -15,28 +15,29 @@ export default function FreeVideoSection() {
   };
 
   return (
-    <section id="free" className="free-video-section">
-      <div className="free-video-container">
+    <section id="free" className="free-video-section" aria-label="مشاهدة الدرس المجاني">
+      <div className="container">
         {/* Header */}
-        <div style={{ maxWidth: '640px', marginBottom: '48px' }}>
-          <div style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '0.08em', color: '#F0D8D6', marginBottom: '16px' }}>
-            شاهدي قبل الاشتراك
+        <div style={{ maxWidth: '680px', marginBottom: 'var(--spacing-600)' }}>
+          <div className="section-eyebrow caption-3" style={{ color: 'var(--color-accent-soft)' }}>
+            شاهدي مجاناً قبل الاشتراك
           </div>
-          <h2 style={{ margin: '0 0 20px', fontFamily: "'El Messiri', serif", fontWeight: 700, fontSize: 'clamp(36px, 4.4vw, 58px)', lineHeight: 1.35, color: '#FFFFFF' }}>
+          <h2 className="heading-2" style={{ color: '#FFFFFF', marginBottom: 'var(--spacing-200)' }}>
             {freeMasterclass.title}
           </h2>
-          <p style={{ margin: 0, color: '#F0D8D6', fontWeight: 300, fontSize: '17px' }}>
+          <p className="body-2" style={{ color: 'var(--color-accent-soft)', opacity: 0.9 }}>
             {freeMasterclass.tagline}
           </p>
         </div>
 
-        {/* Video Frame */}
+        {/* Video Frame with Nested Radius Formula (B3) */}
         <div className="free-video-frame">
           <div className="free-video-player-box">
             <img
               src="/assets/images/masterclass-preview.jpg"
-              alt="Halla Academy Free Lesson Preview"
+              alt="معاينة الدرس التدريبي المجاني مع حلا سامي"
               className="free-video-poster"
+              loading="lazy"
             />
 
             <button
@@ -55,23 +56,23 @@ export default function FreeVideoSection() {
               )}
             </button>
 
-            <div style={{ position: 'relative', zIndex: 5, color: '#F0D8D6', fontSize: '15px', marginTop: '16px', background: 'rgba(26,26,26,0.7)', padding: '4px 14px', borderRadius: '2px' }}>
+            <div className="caption-2" style={{ position: 'relative', zIndex: 5, color: 'var(--color-accent-soft)', marginTop: 'var(--spacing-200)', background: 'rgba(26,26,26,0.75)', padding: '6px 16px', borderRadius: 'var(--radius-full)', backdropFilter: 'blur(4px)' }}>
               {currentChapter.title}
             </div>
 
-            <div dir="ltr" style={{ position: 'absolute', left: '24px', bottom: '18px', fontSize: '14px', color: '#F0D8D6', fontFamily: "'Cormorant Garamond', serif" }}>
+            <div dir="ltr" className="caption-2" style={{ position: 'absolute', left: 'var(--spacing-300)', bottom: 'var(--spacing-200)', color: 'var(--color-accent-soft)', fontFamily: 'var(--font-luxury)' }}>
               {currentChapter.time} / 20:00
             </div>
           </div>
         </div>
 
         {/* Chapters Strip */}
-        <div className="chapter-selector-strip">
+        <div className="chapter-selector-strip" aria-label="فصول الدرس">
           {freeMasterclass.chapters.map((ch) => (
             <button
               key={ch.id}
               onClick={() => handleSelectChapter(ch)}
-              className={`chapter-btn-item ${currentChapter.id === ch.id ? 'active' : ''}`}
+              className={`chapter-btn-item caption-2 ${currentChapter.id === ch.id ? 'active' : ''}`}
             >
               <strong dir="ltr" style={{ marginLeft: '6px' }}>{ch.time}</strong>
               <span>{ch.title}</span>

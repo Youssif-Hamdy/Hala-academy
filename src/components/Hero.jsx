@@ -1,68 +1,111 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { useApp } from '../context/AppContext';
 
 export default function Hero() {
+  const { openEnrollModal } = useApp();
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
+
+  const scrollToFreeVideo = () => {
+    const el = document.getElementById('free') || document.getElementById('course');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="top" className="hero-section">
-      {/* Background Media */}
-      <div className="hero-bg-media" aria-hidden="true">
-        <img
-          src="/assets/images/hero-cinematic.jpg"
-          alt="Halla Academy Masterclass Cinematic"
-          className="hero-bg-image"
-        />
-        <div className="hero-overlay-gradient"></div>
-        <div className="hero-overlay-bottom"></div>
+    <section id="top" className="hero-section" aria-label="مقدمة الأكاديمية">
+      {/* 1. Left-Side Full Viewport Height Video on Large Screens */}
+      <div className="hero-left-video-pane" aria-hidden="true">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/assets/images/hero-reel-poster.jpg"
+          className="hero-video-element"
+        >
+          <source src="/assets/videos/hero-section.MOV" type="video/mp4" />
+          <source src="/assets/videos/hero-section.MOV" type="video/quicktime" />
+        </video>
+        {/* Soft veil overlay specifically over the video so it is visible but elegantly tinted */}
+        <div className="hero-video-veil"></div>
       </div>
 
-      <div className="container" style={{ position: 'relative', zIndex: 5 }}>
-        <div className="hero-content">
-          <div className="hero-divider" aria-hidden="true"></div>
+      {/* 2. Premium Multi-Layer Burgundy Gradient Overlays */}
+      <div className="hero-gradient-overlay-h" aria-hidden="true"></div>
+      <div className="hero-gradient-overlay-v" aria-hidden="true"></div>
+      <div className="hero-gradient-overlay-top" aria-hidden="true"></div>
+      <div className="hero-atmospheric-glow" aria-hidden="true"></div>
 
-          <div
-            dir="ltr"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '16px',
-              letterSpacing: '0.45em',
-              color: '#F0D8D6',
-              marginBottom: '28px',
-              paddingLeft: '0.45em'
-            }}
-          >
-            HALLA ACADEMY
+      {/* 3. Foreground Container: Right-aligned Content on Desktop in RTL */}
+      <div className="container hero-container">
+        <div className="hero-layout-grid">
+          {/* Right Column: All Primary Content (Starts first in RTL) */}
+          <div className="hero-content-col">
+            <div className="hero-brand-monogram" dir="ltr">
+              HALLA ACADEMY · HAUTE BEAUTÉ
+            </div>
+
+            {/* Slogan & Headline */}
+            <h1 className="hero-title">
+              تعلّمي فنون المكياج بإتقان،<br />
+              من الأساسيات حتى الاحتراف
+            </h1>
+
+            {/* Subheadline with subtle elegant gold tone */}
+            <p className="hero-subtitle">
+              منهج رقمي متكامل تقوده خبيرة التجميل حلا سامي، يكشف أسرار وتقنيات الميك اب العالمية بأسلوب عملي خطوة بخطوة باللغة العربية.
+            </p>
+
+            {/* Elevated Dual Rectangular CTAs (matches reference design) */}
+            <div className="hero-cta-group">
+              <button
+                onClick={() => openEnrollModal('pro')}
+                className="hero-btn-primary"
+                id="hero-primary-cta"
+              >
+                <span>اكتشفي الكورس</span>
+                <span className="hero-btn-arrow" aria-hidden="true">←</span>
+              </button>
+
+              <button
+                onClick={scrollToFreeVideo}
+                className="hero-btn-secondary"
+                id="hero-secondary-cta"
+              >
+                <span className="hero-btn-play-icon" aria-hidden="true">▶</span>
+                <span>شاهدي الفيلم</span>
+              </button>
+            </div>
+
+            {/* Thin Divider Line */}
+            <div className="hero-highlights-divider" aria-hidden="true"></div>
+
+            {/* Three Simple Clean Words (matches reference design) */}
+            <div className="hero-simple-highlights">
+              <span>كورس مسجّل</span>
+              <span>بالعربية</span>
+              <span>من الأساسيات إلى الاحتراف</span>
+            </div>
           </div>
 
-          <h1 className="hero-title">
-            تعلّمي المكياج بإتقان،<br />
-            خطوة بعد خطوة
-          </h1>
+          {/* Left Column Spacer & Subtle Ambient Video Controller */}
+          <div className="hero-video-spacer-col">
 
-          <p className="hero-subtitle">
-            أكاديمية رقمية تقودها خبيرة التجميل حلا سامي، لتتعلّمي المكياج لنفسك أو تطوّري مهارتك للاحتراف، بالعربية وعلى راحتك.
-          </p>
-
-          <div className="hero-cta-group">
-            <a href="#course" className="hero-btn-white">
-              <span>اكتشفي الكورس</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A1C2E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M19 12H5M11 6l-6 6 6 6"></path>
-              </svg>
-            </a>
-
-            <a href="#free" className="btn-luxury-secondary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-                <path d="M7 4.5v15l13-7.5z"></path>
-              </svg>
-              <span>شاهدي الفيلم</span>
-            </a>
-          </div>
-
-          <div className="hero-pill-highlights">
-            <span>كورس مسجّل</span>
-            <span>·</span>
-            <span>بالعربية</span>
-            <span>·</span>
-            <span>من الأساسيات إلى الاحتراف</span>
           </div>
         </div>
       </div>

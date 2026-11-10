@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authApi, applicationsApi } from '../services/api';
 
 const AppContext = createContext();
 
@@ -7,6 +8,76 @@ export function AppProvider({ children }) {
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isLmsModalOpen, setIsLmsModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  
+  // Auth state
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hala_session_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'register' | 'admin'
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#auth' || hash === '#login' || hash === '#signup' || hash === '#register') {
+        return 'auth';
+      }
+    }
+    return 'home';
+  });
+
+  // Handle URL hash changes for page routing
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#signup' || hash === '#register') {
+        setAuthModalMode('register');
+        setCurrentView('auth');
+      } else if (hash === '#login' || hash === '#auth') {
+        setAuthModalMode('login');
+        setCurrentView('auth');
+      } else if (hash === '#admin') {
+        setAuthModalMode('admin');
+        setCurrentView('auth');
+      } else if (hash === '#top' || hash === '' || hash.startsWith('#about') || hash.startsWith('#course') || hash.startsWith('#certifications') || hash.startsWith('#free') || hash.startsWith('#stories') || hash.startsWith('#faq')) {
+        setCurrentView('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const navigateToAuth = (mode = 'login') => {
+    setAuthModalMode(mode);
+    setCurrentView('auth');
+    if (typeof window !== 'undefined') {
+      window.location.hash = mode === 'register' ? '#signup' : '#login';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToHome = () => {
+    setCurrentView('home');
+    if (typeof window !== 'undefined') {
+      if (window.location.hash) {
+        history.pushState("", document.title, window.location.pathname);
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Booking / Application Modal state
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
+  // Lightbox modals for Certificates & Posts
+  const [activeCertificate, setActiveCertificate] = useState(null);
+  const [activePost, setActivePost] = useState(null);
+
   const [activeVideoChapter, setActiveVideoChapter] = useState('c1');
   const [isPlayingFreeVideo, setIsPlayingFreeVideo] = useState(false);
   
@@ -25,7 +96,7 @@ export function AppProvider({ children }) {
     setToast(message);
     setTimeout(() => {
       setToast(null);
-    }, 3800);
+    }, 4000);
   };
 
   const openEnrollModal = (trackId) => {
@@ -37,12 +108,74 @@ export function AppProvider({ children }) {
     setIsEnrollModalOpen(false);
   };
 
+  const openAuthModal = (mode = 'login') => {
+    navigateToAuth(mode);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
+
+  const openBookingModal = () => {
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
+  };
+
   const openLmsModal = () => {
     setIsLmsModalOpen(true);
   };
 
   const closeLmsModal = () => {
     setIsLmsModalOpen(false);
+  };
+
+  // Auth actions
+  const handleLogin = async (email, password) => {
+    const res = await authApi.login(email, password);
+    setCurrentUser(res.user);
+    localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    showToast(`مرحباً بكِ مجدداً، ${res.user.name}`);
+    setIsAuthModalOpen(false);
+    return res.user;
+  };
+
+  const handleAdminLogin = async (email, password) => {
+    const res = await authApi.adminLogin(email, password);
+    setCurrentUser(res.user);
+    localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    showToast(`تم تسجيل دخول لوحة الإدارة: ${res.user.name}`);
+    setIsAuthModalOpen(false);
+    return res.user;
+  };
+
+  const handleRegister = async (name, email, password) => {
+    const res = await authApi.register(name, email, password);
+    setCurrentUser(res.user);
+    localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    showToast(`تم إنشاء حسابكِ بنجاح، أهلاً بكِ يا ${res.user.name}`);
+    setIsAuthModalOpen(false);
+    return res.user;
+  };
+
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (e) {
+      console.warn('Logout API error:', e);
+    }
+    setCurrentUser(null);
+    localStorage.removeItem('hala_session_user');
+    showToast('تم تسجيل الخروج بنجاح');
+  };
+
+  const handleApplicationSubmit = async (name, currentChallenges, courseGoal) => {
+    const res = await applicationsApi.submit(name, currentChallenges, courseGoal);
+    showToast('تم إرسال طلب الالتحاق بنجاح! سيتم مراجعته والتواصل معكِ.');
+    setIsBookingModalOpen(false);
+    return res.application;
   };
 
   const toggleLessonCompleted = (lessonId) => {
@@ -63,6 +196,27 @@ export function AppProvider({ children }) {
         isEnrollModalOpen,
         openEnrollModal,
         closeEnrollModal,
+        isBookingModalOpen,
+        openBookingModal,
+        closeBookingModal,
+        isAuthModalOpen,
+        authModalMode,
+        setAuthModalMode,
+        openAuthModal,
+        closeAuthModal,
+        currentView,
+        navigateToAuth,
+        navigateToHome,
+        currentUser,
+        login: handleLogin,
+        adminLogin: handleAdminLogin,
+        register: handleRegister,
+        logout: handleLogout,
+        submitApplication: handleApplicationSubmit,
+        activeCertificate,
+        setActiveCertificate,
+        activePost,
+        setActivePost,
         isLmsModalOpen,
         openLmsModal,
         closeLmsModal,

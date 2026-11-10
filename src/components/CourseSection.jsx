@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { ACADEMY_DATA } from '../data/courseData';
 
 export default function CourseSection() {
-  const { openEnrollModal, showToast } = useApp();
+  const { openEnrollModal } = useApp();
   const [expandedUnit, setExpandedUnit] = useState(null);
   const { modules } = ACADEMY_DATA;
 
@@ -12,109 +12,108 @@ export default function CourseSection() {
   };
 
   return (
-    <section id="course" className="course-section">
-      <div className="course-container">
+    <section id="course" className="course-section" aria-label="الكورس والمسارات التدريبية">
+      <div className="container">
         {/* Course Intro */}
         <div className="course-intro-box">
-          <div className="section-label">الكورس</div>
-          <h2 className="section-title">مسارك في التعلّم</h2>
-          <p style={{ margin: 0, color: '#4A3A3D', fontSize: '16.5px', lineHeight: '1.9' }}>
-            دورة مكياج مسجّلة بالعربية، من الأساسيات إلى التقنيات الاحترافية. اختاري الطريق الأقرب لهدفك.
+          <div className="section-eyebrow caption-3">المسارات التدريبية</div>
+          <h2 className="section-title heading-2">مسارك المخصص في التعلّم</h2>
+          <p className="body-2" style={{ color: 'var(--color-text-muted)' }}>
+            منهج متكامل مسجّل بجودة سينمائية فائقة باللغة العربية، من الأساسيات إلى الاحتراف الكامل. اختاري المسار الذي يناسب طموحك.
           </p>
         </div>
 
-        {/* Tracks Grid (Exact Design from Reference) */}
+        {/* Tracks Grid (Nested Radius B3 & Mathematical Spacing B2) */}
         <div className="track-cards-grid">
           {/* Card 1: For You */}
           <div className="track-card-for-you">
-            <div dir="ltr" className="track-tag-latin" style={{ color: '#7A1C2E' }}>
-              FOR YOU
+            <div dir="ltr" className="track-tag-latin" style={{ color: 'var(--color-primary)' }}>
+              FOR YOU · مسار الاستخدام الشخصي
             </div>
 
-            <h3 className="track-heading" style={{ color: '#1A1A1A' }}>
-              أتعلّم لنفسي
+            <h3 className="track-heading heading-4" style={{ color: 'var(--color-noir)' }}>
+              أتعلّم لنفسي وإبراز جمالي
             </h3>
 
-            <p className="track-desc" style={{ color: '#4A3A3D' }}>
-              مكياج يومي ولمسات تناسب ملامحك، من تحضير البشرة حتى الثبات، لتعتمدي على نفسك في كل مناسبة.
+            <p className="track-desc body-3" style={{ color: 'var(--color-text-muted)' }}>
+              مكياج يومي ولمسات متقنة تناسب ملامحك بدقة، من تحضير البشرة والعناية بها حتى التثبيت الاحترافي، لتعتمدي على نفسك بثقة في كل مناسبة.
             </p>
 
             <div className="track-price-row">
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '38px', fontWeight: 600, color: '#7A1C2E', lineHeight: 1 }}>
+              <span className="heading-3" style={{ color: 'var(--color-primary)', lineHeight: 1 }}>
                 1,850
               </span>
-              <span style={{ fontSize: '15px', fontWeight: 500, color: '#4A3A3D' }}>
-                جنيه مصري · وصول غير محدود
+              <span className="caption-1" style={{ color: 'var(--color-text-muted)' }}>
+                جنيه مصري · وصول غير محدود مدى الحياة
               </span>
             </div>
 
             <button
               onClick={() => openEnrollModal('self')}
+              className="button-md"
               style={{
                 background: '#FFFFFF',
-                color: '#7A1C2E',
-                border: '1px solid #7A1C2E',
+                color: 'var(--color-primary)',
+                border: '1px solid var(--color-primary)',
                 minHeight: '48px',
-                padding: '0 24px',
-                fontWeight: 600,
-                fontSize: '15px',
-                borderRadius: '2px',
+                padding: '0 var(--spacing-300)',
+                borderRadius: 'var(--radius-md)',
                 marginTop: 'auto',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px'
+                gap: 'var(--spacing-100)'
               }}
             >
               <span>اختاري مسار أتعلّم لنفسي</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
             </button>
           </div>
 
-          {/* Card 2: Professional */}
+          {/* Card 2: Professional (Haute Couture Featured) */}
           <div className="track-card-pro">
-            <div dir="ltr" className="track-tag-latin" style={{ color: '#F0D8D6' }}>
-              PROFESSIONAL
+            <div dir="ltr" className="track-tag-latin" style={{ color: 'var(--color-accent-soft)' }}>
+              PROFESSIONAL · المسار الاحترافي الشامل
             </div>
 
-            <h3 className="track-heading" style={{ color: '#FFFFFF' }}>
-              أطوّر مهاراتي للاحتراف
+            <h3 className="track-heading heading-4" style={{ color: '#FFFFFF' }}>
+              احتراف فنون المكياج وسوق العمل
             </h3>
 
-            <p className="track-desc" style={{ color: '#F0D8D6' }}>
-              تقنيات احترافية، وتعامل مع العميلات، وأخلاقيات المهنة، لتطوّري مستواك بثقة.
+            <p className="track-desc body-3" style={{ color: 'var(--color-accent-soft)' }}>
+              تقنيات العرائس والتصوير السينمائي، أسرار خلط وتثبيت كريمات الأساس، فن التعامل مع العميلات، وأخلاقيات المهنة لتأسيس اسمك في السوق بثقة.
             </p>
 
-            <div className="track-price-row" style={{ borderColor: 'rgba(240, 216, 214, 0.3)' }}>
-              <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '38px', fontWeight: 600, color: '#FFFFFF', lineHeight: 1 }}>
+            <div className="track-price-row" style={{ borderColor: 'rgba(240, 216, 214, 0.35)' }}>
+              <span className="heading-3" style={{ color: '#FFFFFF', lineHeight: 1 }}>
                 3,450
               </span>
-              <span style={{ fontSize: '15px', fontWeight: 400, color: '#F0D8D6' }}>
-                جنيه مصري · شهادة معتمدة
+              <span className="caption-1" style={{ color: 'var(--color-accent-soft)' }}>
+                جنيه مصري · شهادة معتمدة موثقة برقم تسلسلي
               </span>
             </div>
 
             <button
               onClick={() => openEnrollModal('pro')}
+              className="button-md"
               style={{
                 background: '#FFFFFF',
-                color: '#7A1C2E',
+                color: 'var(--color-primary)',
                 minHeight: '48px',
-                padding: '0 24px',
-                fontWeight: 600,
-                fontSize: '15px',
-                borderRadius: '2px',
+                padding: '0 var(--spacing-300)',
+                borderRadius: 'var(--radius-md)',
                 marginTop: 'auto',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px'
+                gap: 'var(--spacing-100)',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.15)'
               }}
             >
               <span>اختاري مسار الاحتراف الكامل</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
             </button>
@@ -124,11 +123,11 @@ export default function CourseSection() {
         {/* Modules Header */}
         <div className="modules-wrapper">
           <div className="modules-header-row">
-            <h3 style={{ margin: 0, fontFamily: "'El Messiri', serif", fontSize: '38px', lineHeight: 1.35, fontWeight: 700 }}>
-              وحدات الكورس
+            <h3 className="heading-3">
+              وحدات ومنهج الكورس
             </h3>
-            <div style={{ fontSize: '15px', color: '#4A3A3D' }}>
-              ست وحدات تُفتح بالتدريج
+            <div className="caption-1" style={{ color: 'var(--color-text-subtle)' }}>
+              6 وحدات تدريبية متسلسلة خطوة بخطوة
             </div>
           </div>
 
@@ -139,31 +138,31 @@ export default function CourseSection() {
               {modules.slice(0, 3).map((mod) => {
                 const isOpen = expandedUnit === mod.number;
                 return (
-                  <div key={mod.number} style={{ borderTop: '1px solid #C5899A' }}>
+                  <div key={mod.number} className="module-item-container">
                     <div
                       className="module-item-row"
                       onClick={() => toggleUnit(mod.number)}
-                      style={{ border: 'none' }}
+                      aria-expanded={isOpen}
                     >
                       <div dir="ltr" className="module-code-number">
                         {mod.number}
                       </div>
                       <div style={{ flexGrow: 1 }}>
-                        <div className="module-title-main">{mod.title}</div>
-                        <div className="module-desc-sub">{mod.summary}</div>
+                        <div className="module-title-main title-2">{mod.title}</div>
+                        <div className="module-desc-sub caption-2">{mod.summary}</div>
                       </div>
                       <svg
-                        width="18"
-                        height="18"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#7A1C2E"
-                        strokeWidth="1.8"
+                        stroke="var(--color-primary)"
+                        strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         style={{
                           transform: isOpen ? 'rotate(180deg)' : 'none',
-                          transition: 'transform 0.2s',
+                          transition: 'transform var(--duration-fast) var(--motion-base)',
                           flexShrink: 0,
                           marginTop: '4px'
                         }}
@@ -174,14 +173,14 @@ export default function CourseSection() {
 
                     {isOpen && (
                       <div className="module-drawer-details">
-                        <div style={{ fontWeight: 600, color: '#7A1C2E', marginBottom: '8px' }}>
-                          الدروس المسجلة ({mod.duration}):
+                        <div className="caption-3" style={{ color: 'var(--color-primary)', marginBottom: 'var(--spacing-100)' }}>
+                          الدروس والتدريبات العملية ({mod.duration}):
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-75)' }}>
                           {mod.lessons.map((lesson) => (
-                            <div key={lesson.id} style={{ display: 'flex', justifyContent: 'space-between', color: '#4A3A3D' }}>
+                            <div key={lesson.id} className="caption-2" style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-text-main)' }}>
                               <span>• {lesson.title}</span>
-                              <span dir="ltr" style={{ fontSize: '12px', opacity: 0.8 }}>{lesson.duration}</span>
+                              <span dir="ltr" style={{ color: 'var(--color-text-subtle)' }}>{lesson.duration}</span>
                             </div>
                           ))}
                         </div>
@@ -194,35 +193,34 @@ export default function CourseSection() {
 
             {/* Column 2: 04, 05, 06 */}
             <div>
-              {modules.slice(3, 6).map((mod, idx) => {
+              {modules.slice(3, 6).map((mod) => {
                 const isOpen = expandedUnit === mod.number;
-                const isLast = idx === 2;
                 return (
-                  <div key={mod.number} style={{ borderTop: '1px solid #C5899A', borderBottom: isLast ? '1px solid #C5899A' : 'none' }}>
+                  <div key={mod.number} className="module-item-container">
                     <div
                       className="module-item-row"
                       onClick={() => toggleUnit(mod.number)}
-                      style={{ border: 'none' }}
+                      aria-expanded={isOpen}
                     >
                       <div dir="ltr" className="module-code-number">
                         {mod.number}
                       </div>
                       <div style={{ flexGrow: 1 }}>
-                        <div className="module-title-main">{mod.title}</div>
-                        <div className="module-desc-sub">{mod.summary}</div>
+                        <div className="module-title-main title-2">{mod.title}</div>
+                        <div className="module-desc-sub caption-2">{mod.summary}</div>
                       </div>
                       <svg
-                        width="18"
-                        height="18"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#7A1C2E"
-                        strokeWidth="1.8"
+                        stroke="var(--color-primary)"
+                        strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         style={{
                           transform: isOpen ? 'rotate(180deg)' : 'none',
-                          transition: 'transform 0.2s',
+                          transition: 'transform var(--duration-fast) var(--motion-base)',
                           flexShrink: 0,
                           marginTop: '4px'
                         }}
@@ -233,14 +231,14 @@ export default function CourseSection() {
 
                     {isOpen && (
                       <div className="module-drawer-details">
-                        <div style={{ fontWeight: 600, color: '#7A1C2E', marginBottom: '8px' }}>
-                          الدروس المسجلة ({mod.duration}):
+                        <div className="caption-3" style={{ color: 'var(--color-primary)', marginBottom: 'var(--spacing-100)' }}>
+                          الدروس والتدريبات العملية ({mod.duration}):
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-75)' }}>
                           {mod.lessons.map((lesson) => (
-                            <div key={lesson.id} style={{ display: 'flex', justifyContent: 'space-between', color: '#4A3A3D' }}>
+                            <div key={lesson.id} className="caption-2" style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-text-main)' }}>
                               <span>• {lesson.title}</span>
-                              <span dir="ltr" style={{ fontSize: '12px', opacity: 0.8 }}>{lesson.duration}</span>
+                              <span dir="ltr" style={{ color: 'var(--color-text-subtle)' }}>{lesson.duration}</span>
                             </div>
                           ))}
                         </div>

@@ -1,5 +1,7 @@
 :root {
-  /* Brand Luxury Palette from Design Mockup */
+  /* ==========================================================================
+     BRAND LUXURY PALETTE (Halla Academy Haute-Couture)
+     ========================================================================== */
   --color-primary: #7A1C2E;
   --color-primary-dark: #581220;
   --color-primary-light: #94253B;
@@ -8,6 +10,13 @@
   --color-accent-rose: #C5899A;
   --color-accent-soft: #F0D8D6;
   --color-accent-champagne: #FAF5F4;
+
+  /* Haute-Couture Gold Palette */
+  --color-gold: #D4AF37;
+  --color-gold-light: #F7E7B4;
+  --color-gold-dark: #A37F15;
+  --color-gold-foil: linear-gradient(135deg, #FFFFFF 0%, #FFF3DB 45%, #DFB76C 85%, #C5A059 100%);
+  --color-gold-subtle: rgba(212, 175, 55, 0.15);
 
   /* Neutrals */
   --color-noir: #1A1A1A;
@@ -19,21 +28,55 @@
   --color-border-muted: #C5899A;
   --color-white: #FFFFFF;
 
-  /* Refined Modern Luxury Typography */
-  --font-serif: 'IBM Plex Sans Arabic', sans-serif;
-  --font-luxury: 'Cormorant Garamond', 'Marcellus', serif;
-  --font-sans: 'IBM Plex Sans Arabic', sans-serif;
+  /* ==========================================================================
+     AI-DESIGN-SKILLS: STRICT SPACING TOKENS (B2)
+     ========================================================================== */
+  --spacing-0: 0px;
+  --spacing-25: 2px;
+  --spacing-50: 4px;
+  --spacing-75: 8px;
+  --spacing-100: 12px;
+  --spacing-200: 16px;
+  --spacing-300: 24px;
+  --spacing-400: 32px;
+  --spacing-500: 40px;
+  --spacing-600: 48px;
+  --spacing-700: 64px;
+  --spacing-800: 80px;
+  --spacing-900: 96px;
 
-  /* Sharp Luxury Architecture (2px minimal radius from design reference) */
+  /* ==========================================================================
+     AI-DESIGN-SKILLS: CORNER RADIUS TOKENS (B3)
+     ========================================================================== */
+  --radius-none: 0px;
   --radius-xs: 2px;
-  --radius-sm: 2px;
-  --radius-md: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
 
-  /* Transitions */
-  --transition-fast: 0.18s ease;
-  --transition-normal: 0.28s ease;
+  /* ==========================================================================
+     AI-DESIGN-SKILLS: MOTION & DECELERATION SYSTEM (B7)
+     ========================================================================== */
+  --motion-base: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-layout: 500ms;
+  --duration-fast: 300ms;
+  --transition-fast: 0.2s var(--motion-base);
+  --transition-normal: 0.35s var(--motion-base);
+  --transition-layout: var(--duration-layout) var(--motion-base);
+
+  /* Typography Fonts */
+  --font-serif: 'Alexandria', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-luxury: 'Cormorant Garamond', 'Marcellus', serif;
+  --font-sans: 'Alexandria', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-arabic: 'Alexandria', sans-serif;
 }
 
+/* ==========================================================================
+   RESET & GLOBAL BASE (AI-DESIGN-SKILLS RULES)
+   ========================================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -51,7 +94,7 @@ body {
   color: var(--color-text-main);
   font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.9;
+  line-height: 1.6;
   direction: rtl;
   text-align: right;
   overflow-x: hidden;
@@ -59,10 +102,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* No orphaned words rule */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--color-noir);
+}
+
+p, li, span {
+  text-wrap: pretty;
+}
+
 a {
   color: inherit;
   text-decoration: none;
-  transition: opacity var(--transition-fast), color var(--transition-fast);
+  transition: opacity var(--duration-fast) var(--motion-base), color var(--duration-fast) var(--motion-base);
 }
 
 button {
@@ -71,6 +126,20 @@ button {
   outline: none;
   cursor: pointer;
   background: none;
+  transition: transform var(--duration-fast) var(--motion-base), background var(--duration-fast) var(--motion-base), color var(--duration-fast) var(--motion-base);
+}
+
+/* Physical tactile response for all interactive elements (B9) */
+button:active, 
+.btn-luxury-primary:active,
+.btn-luxury-secondary:active,
+.hero-btn-white:active {
+  transform: scale(0.98);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 img {
@@ -79,7 +148,189 @@ img {
   display: block;
 }
 
-/* Custom Minimalist Scrollbar */
+/* Skip link for accessibility (B10) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  right: 16px;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  font-weight: 500;
+  transition: top var(--duration-fast) var(--motion-base);
+}
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ==========================================================================
+   AI-DESIGN-SKILLS: 24 STRICT NAMED TEXT STYLES (B1)
+   ========================================================================== */
+.heading-1 {
+  font-size: clamp(32px, 3.8vw, 48px);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+.heading-2 {
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+.heading-3 {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 600;
+}
+
+.heading-4 {
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+.heading-5 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+.heading-6 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+/* Titles */
+.title-1 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+.title-2 {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+}
+
+.title-3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.title-4 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.title-5 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+/* Body */
+.body-1 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.body-2 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.body-3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.body-4 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.body-5 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.body-6 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+/* Buttons */
+.button-lg {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.button-md {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.button-sm {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.button-xsm {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+/* Captions */
+.caption-1 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.caption-2 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.caption-3 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.caption-4 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.caption-5 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+/* Minimal Luxury Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -102,14 +353,14 @@ img {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: var(--spacing-300);
+  padding-right: var(--spacing-300);
   box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .container {
-    padding-left: 48px;
-    padding-right: 48px;
+    padding-left: var(--spacing-600);
+    padding-right: var(--spacing-600);
   }
 }
