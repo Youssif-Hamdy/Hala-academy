@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { authApi, applicationsApi, enrollmentsApi } from '../services/api';
+import { authApi, applicationsApi, enrollmentsApi, bookingsApi } from '../services/api';
 
 const AppContext = createContext();
 
@@ -225,6 +225,8 @@ export function AppProvider({ children }) {
     const res = await authApi.login(email, password);
     setCurrentUser(res.user);
     localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    // حفظ الـ token للموبايل (Safari يحجب الـ Cookies بين الدومينات)
+    if (res.token) localStorage.setItem('token', res.token);
     showToast(`مرحباً بكِ مجدداً، ${res.user.name}`);
     setIsAuthModalOpen(false);
     return res.user;
@@ -234,6 +236,7 @@ export function AppProvider({ children }) {
     const res = await authApi.adminLogin(email, password);
     setCurrentUser(res.user);
     localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    if (res.token) localStorage.setItem('token', res.token);
     showToast(`تم تسجيل دخول لوحة الإدارة: ${res.user.name}`);
     setIsAuthModalOpen(false);
     return res.user;
@@ -243,6 +246,7 @@ export function AppProvider({ children }) {
     const res = await authApi.register(name, email, password);
     setCurrentUser(res.user);
     localStorage.setItem('hala_session_user', JSON.stringify(res.user));
+    if (res.token) localStorage.setItem('token', res.token);
     showToast(`تم إنشاء حسابكِ بنجاح، أهلاً بكِ يا ${res.user.name}`);
     setIsAuthModalOpen(false);
     return res.user;
@@ -256,6 +260,7 @@ export function AppProvider({ children }) {
     }
     setCurrentUser(null);
     localStorage.removeItem('hala_session_user');
+    localStorage.removeItem('token');
     showToast('تم تسجيل الخروج بنجاح');
   };
 
@@ -264,6 +269,13 @@ export function AppProvider({ children }) {
     showToast('تم إرسال استمارة الالتحاق بنجاح! سيتم مراجعتها والتواصل معكِ قريباً.');
     setIsBookingModalOpen(false);
     return res.application || res;
+  };
+
+  // إرسال طلب حجز الكورس — POST /api/bookings
+  const handleCreateBooking = async (name, phone, email) => {
+    const res = await bookingsApi.createBooking(name, phone, email);
+    showToast('تم تسجيل طلب الحجز بنجاح! سيتم التواصل معكِ قريباً.');
+    return res.booking || res;
   };
 
   const toggleLessonCompleted = (lessonId) => {
@@ -302,6 +314,7 @@ export function AppProvider({ children }) {
         register: handleRegister,
         logout: handleLogout,
         submitApplication: handleApplicationSubmit,
+        createBooking: handleCreateBooking,
         myEnrollments,
         refreshEnrollments,
         createEnrollmentRequest,

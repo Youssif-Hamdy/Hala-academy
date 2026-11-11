@@ -119,11 +119,12 @@ export function getStoredAuditLogs() {
 }
 
 /**
- * Core fetch wrapper with credentials: "include" for HttpOnly Cookie authentication
- * Endpoints التي تتطلب backend حقيقي ولا يجب محاكاتها محلياً
+ * Core fetch wrapper with credentials: "include" للـ Cookie + Bearer Token للموبايل (Hybrid System)
+ * Endpoints التي تتطلب backend حقيقي ولا يجب محاكاتها محلياً أبداً
  */
 const REAL_BACKEND_ONLY_PATTERNS = [
-  '/api/applications'
+  '/api/applications',
+  '/api/bookings'
 ];
 
 export async function apiFetch(endpoint, options = {}) {
@@ -134,14 +135,11 @@ export async function apiFetch(endpoint, options = {}) {
     ...(options.headers || {})
   };
 
-  // إذا كان هناك token في localStorage، نضيفه كـ Authorization header
+  // إرفاق Bearer Token تلقائياً — ضروري للموبايل (Safari يحجب Third-Party Cookies)
   try {
-    const sessionRaw = localStorage.getItem('hala_session_user');
-    if (sessionRaw) {
-      const session = JSON.parse(sessionRaw);
-      if (session?.token) {
-        headers['Authorization'] = `Bearer ${session.token}`;
-      }
+    const token = localStorage.getItem('token');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
   } catch (_) { /* تجاهل أخطاء parsing */ }
 
@@ -523,7 +521,6 @@ export const enrollmentsApi = {
 export const applicationsApi = {
   /**
    * إرسال استمارة التقديم — POST /api/applications
-   * يتطلب تسجيل الدخول (HttpOnly Cookie من الـ backend)
    * Payload: { name, currentChallenges, courseGoal }
    * - currentChallenges: 50-500 كلمة
    * - courseGoal: 50-500 كلمة
@@ -542,6 +539,28 @@ export const applicationsApi = {
 
   getById: (id) =>
     apiFetch(`/api/applications/${id}`, {
+      method: 'GET'
+    })
+};
+
+export const bookingsApi = {
+  /**
+   * تقديم طلب حجز كورس — POST /api/bookings
+   * Payload: { name, phone, email }
+   * - ينشأ بحالة PENDING
+   * - 409 Conflict لو عنده حجز معلق بالفعل
+   */
+  createBooking: (name, phone, email) =>
+    apiFetch('/api/bookings', {
+      method: 'POST',
+      body: JSON.stringify({ name, phone, email })
+    }),
+
+  /**
+   * استعراض حجوزات المستخدم — GET /api/bookings/my
+   */
+  getMyBookings: () =>
+    apiFetch('/api/bookings/my', {
       method: 'GET'
     })
 };

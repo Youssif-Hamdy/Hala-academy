@@ -23,6 +23,10 @@ import StudentLmsModal from './components/StudentLmsModal';
 import AdminDashboardModal from './components/AdminDashboardModal';
 import Toast from './components/Toast';
 
+// New: Splash + Promo
+import SplashScreen from './components/SplashScreen';
+import PromoPopup from './components/PromoPopup';
+
 import './styles/theme.css';
 import './styles/components.css';
 import './styles/mobile-fixes.css';
@@ -77,7 +81,9 @@ function AppContent() {
 export default function App() {
   return (
     <AppProvider>
+      <SplashScreen />
       <AppContent />
+      <PromoPopup />
     </AppProvider>
   );
 }

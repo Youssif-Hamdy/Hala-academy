@@ -11,7 +11,7 @@ export default function CheckoutModal() {
     selectedTrack,
     setSelectedTrack,
     currentUser,
-    createEnrollmentRequest,
+    createBooking,
     openLmsModal,
     showToast,
     openAuthModal
@@ -114,27 +114,31 @@ export default function CheckoutModal() {
 
     setIsSubmitting(true);
     try {
-      const res = await createEnrollmentRequest({
-        courseId: currentTrack.id,
+      // POST /api/bookings — { name, phone, email }
+      const booking = await createBooking(cleanName, cleanPhone, cleanEmail);
+
+      setSubmittedRequest({
+        ...booking,
+        fullName: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        courseName: currentTrack.title
+      });
+
+      // فتح WhatsApp بالرسالة المجهزة على الرقم الليبي
+      const waUrl = buildWhatsAppEnrollmentUrl({
         courseName: currentTrack.title,
         fullName: cleanName,
         email: cleanEmail,
         phone: cleanPhone
       });
-
-      setSubmittedRequest(res.enrollment);
-      setWasDuplicate(Boolean(res.isDuplicate));
-
-      // Open WhatsApp with the pre-filled message per Section 2 & 3
-      const waUrl = buildWhatsAppEnrollmentUrl({
-        courseName: currentTrack.title,
-        fullName: res.enrollment.fullName,
-        email: res.enrollment.email,
-        phone: res.enrollment.phone
-      });
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     } catch (err) {
-      setErrorMessage(err.message || 'حدث خطأ أثناء تسجيل الطلب، يرجى المحاولة مرة أخرى.');
+      if (err.status === 409) {
+        setErrorMessage('لديكِ طلب حجز قيد المراجعة بالفعل. يمكنكِ التواصل معنا عبر WhatsApp لمتابعة طلبكِ.');
+      } else {
+        setErrorMessage(err.message || 'حدث خطأ أثناء تسجيل الطلب، يرجى المحاولة مرة أخرى.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -142,18 +146,18 @@ export default function CheckoutModal() {
 
   const whatsappUrlForSubmitted = submittedRequest
     ? buildWhatsAppEnrollmentUrl({
-        courseName: submittedRequest.courseName,
-        fullName: submittedRequest.fullName,
-        email: submittedRequest.email,
-        phone: submittedRequest.phone
+        courseName: submittedRequest.courseName || currentTrack?.title || '',
+        fullName: submittedRequest.fullName || fullName,
+        email: submittedRequest.email || email,
+        phone: submittedRequest.phone || phone
       })
     : '#';
 
   const previewMessageText = [
     'السلام عليكم، أرغب في الاشتراك في الكورس التالي:',
-    `اسم الكورس: ${submittedRequest?.courseName || currentTrack.title}`,
-    `الاسم: ${submittedRequest?.fullName || fullName || '[اسم الطالب]'}`,
-    `Gmail الخاص بالمشاهدة: ${submittedRequest?.email || email || '[البريد الإلكتروني]'}`,
+    `اسم الكورس: ${submittedRequest?.courseName || currentTrack?.title || ''}`,
+    `الاسم: ${submittedRequest?.fullName || fullName || '[اسم الطالبة]'}`,
+    `البريد الإلكتروني: ${submittedRequest?.email || email || '[البريد]'}`,
     `رقم الهاتف: ${submittedRequest?.phone || phone || '[رقم الهاتف]'}`,
     'من فضلكم أرسلوا لي تفاصيل الدفع.'
   ].join('\n');
