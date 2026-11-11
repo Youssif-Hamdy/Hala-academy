@@ -459,15 +459,15 @@
 
 @media (min-width: 992px) {
   .hero-gradient-overlay-h {
-    /* Lighter, softer, luminous gradient on large screen */
+    /* يغطي الجزء الأيمن (الحمراني) بالكامل ~42% ويتلاشى نحو الفيديو */
     background: linear-gradient(
       to left,
       #4A1626 0%,
-      #4A1626 34%,
-      rgba(74, 22, 38, 0.92) 46%,
-      rgba(74, 22, 38, 0.60) 58%,
-      rgba(74, 22, 38, 0.24) 75%,
-      rgba(74, 22, 38, 0.08) 100%
+      #4A1626 40%,
+      rgba(74, 22, 38, 0.95) 50%,
+      rgba(74, 22, 38, 0.65) 62%,
+      rgba(74, 22, 38, 0.22) 78%,
+      rgba(74, 22, 38, 0.06) 100%
     );
   }
 }
@@ -541,10 +541,10 @@
 @media (min-width: 992px) {
   .hero-layout-grid {
     display: grid;
-    /* In RTL: Column 1 (Right) is Content, Column 2 (Left) is Video Area */
-    grid-template-columns: 1.15fr 0.85fr;
+    /* Column 1 (Right in RTL) = Content/Red zone ~42%, Column 2 (Left) = Video zone ~58% */
+    grid-template-columns: 0.72fr 1.28fr;
     align-items: center;
-    gap: var(--spacing-600);
+    gap: 0;
     min-height: calc(100vh - 160px);
   }
 }
@@ -566,9 +566,13 @@
     text-align: right;
     align-items: flex-start;
     margin: 0;
-    max-width: 560px;
+    max-width: 100%;
+    width: 100%;
     padding-top: var(--spacing-200);
     padding-bottom: var(--spacing-200);
+    padding-right: var(--spacing-500);
+    padding-left: var(--spacing-200);
+    box-sizing: border-box;
   }
 }
 
@@ -621,7 +625,7 @@
     margin-bottom: 30px;
     font-size: clamp(26px, 2.7vw, 37px);
     line-height: 1.48;
-    max-width: 520px;
+    max-width: 100%;
     text-shadow: none;
   }
 }
@@ -646,7 +650,7 @@
     margin-bottom: 44px;
     font-size: clamp(14.5px, 1.05vw, 16px);
     line-height: 2.0;
-    max-width: 490px;
+    max-width: 100%;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   }
 }
