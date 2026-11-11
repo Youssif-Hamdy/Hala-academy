@@ -1,122 +1,82 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React from 'react';
+import { AppProvider, useApp } from './context/AppContext';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import LuxuryPillarsSection from './components/LuxuryPillarsSection';
+import AboutHala from './components/AboutHala';
+import AboutHalaPage from './components/AboutHalaPage';
+import TaglineReveal from './components/TaglineReveal';
+import CourseSection from './components/CourseSection';
+import FreeVideoSection from './components/FreeVideoSection';
+import StoriesReviews from './components/StoriesReviews';
+import FaqSection from './components/FaqSection';
+import CtaBanner from './components/CtaBanner';
+import Footer from './components/Footer';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Premium Modals
+import AuthPage from './components/AuthPage';
+import AuthModal from './components/AuthModal';
+import BookingModal from './components/BookingModal';
+import MediaLightboxModal from './components/MediaLightboxModal';
+import CheckoutModal from './components/CheckoutModal';
+import StudentLmsModal from './components/StudentLmsModal';
+import AdminDashboardModal from './components/AdminDashboardModal';
+import Toast from './components/Toast';
+
+import './styles/theme.css';
+import './styles/components.css';
+
+function AppContent() {
+  const { currentView } = useApp();
+
+  if (currentView === 'auth') {
+    return (
+      <div className="app-root">
+        <AuthPage />
+        <Toast />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-root">
+      <a href="#main-content" className="skip-link">تخطي إلى المحتوى الرئيسي</a>
+      <Navbar />
+      <main id="main-content">
+        {currentView === 'about' ? (
+          <AboutHalaPage />
+        ) : (
+          <>
+            <Hero />
+            <LuxuryPillarsSection />
+            <AboutHala />
+            <TaglineReveal />
+            <CourseSection />
+            <FreeVideoSection />
+            <StoriesReviews />
+            <CtaBanner />
+            <FaqSection />
+          </>
+        )}
+      </main>
+      <Footer />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Dynamic Modals */}
+      <AuthModal />
+      <BookingModal />
+      <MediaLightboxModal />
+      <CheckoutModal />
+      <StudentLmsModal />
+      <AdminDashboardModal />
+      <Toast />
+    </div>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
+  );
+}
