@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 
 export default function Navbar() {
-  const { openBookingModal, openAuthModal, currentUser, logout, openLmsModal } = useApp();
+  const {
+    openBookingModal,
+    openAuthModal,
+    currentUser,
+    logout,
+    openLmsModal,
+    openAdminModal,
+    currentView,
+    navigateToAbout,
+    navigateToHome
+  } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('top');
@@ -11,7 +21,9 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = ['top', 'certifications', 'about', 'press', 'course', 'free', 'stories', 'faq'];
+      if (currentView !== 'home') return;
+
+      const sections = ['top', 'about', 'course', 'free', 'stories', 'faq'];
       const scrollPosition = window.scrollY + 140;
 
       for (const sectionId of sections) {
@@ -46,14 +58,41 @@ export default function Navbar() {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [currentView]);
+
+  const handleHomeSectionNav = (e, sectionId) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (currentView !== 'home') {
+      navigateToHome();
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleAboutPageNav = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    navigateToAbout();
+  };
 
   return (
     <>
-      <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`site-header ${scrolled || currentView === 'about' ? 'scrolled' : ''}`}>
         <div className="header-inner">
           {/* Brand Logo with Official Luxury Emblem */}
-          <a href="#top" className="brand-logo" dir="ltr" aria-label="Halla Academy Home">
+          <a
+            href="#top"
+            onClick={(e) => handleHomeSectionNav(e, 'top')}
+            className="brand-logo"
+            dir="ltr"
+            aria-label="Halla Academy Home"
+          >
             <img
               src="/assets/images/hala-emblem.png"
               alt="Halla Academy Luxury Emblem"
@@ -65,33 +104,38 @@ export default function Navbar() {
           <nav className="nav-links" aria-label="التنقل الرئيسي">
             <a
               href="#top"
-              className={`nav-link caption-1 ${activeSection === 'top' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'top')}
+              className={`nav-link caption-1 ${currentView === 'home' && activeSection === 'top' ? 'active' : ''}`}
             >
               الرئيسية
             </a>
 
             <a
-              href="#about"
-              className={`nav-link caption-1 ${activeSection === 'about' ? 'active' : ''}`}
+              href="#about-hala"
+              onClick={handleAboutPageNav}
+              className={`nav-link caption-1 ${currentView === 'about' ? 'active' : ''}`}
             >
               عن حلا
             </a>
 
             <a
               href="#course"
-              className={`nav-link caption-1 ${activeSection === 'course' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'course')}
+              className={`nav-link caption-1 ${currentView === 'home' && activeSection === 'course' ? 'active' : ''}`}
             >
               الكورس
             </a>
             <a
               href="#free"
-              className={`nav-link caption-1 ${activeSection === 'free' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'free')}
+              className={`nav-link caption-1 ${currentView === 'home' && activeSection === 'free' ? 'active' : ''}`}
             >
-              الدرس المجاني
+              لقطات التدريب
             </a>
             <a
               href="#faq"
-              className={`nav-link caption-1 ${activeSection === 'faq' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'faq')}
+              className={`nav-link caption-1 ${currentView === 'home' && activeSection === 'faq' ? 'active' : ''}`}
             >
               الأسئلة الشائعة
             </a>
@@ -101,13 +145,25 @@ export default function Navbar() {
           <div className="header-actions">
             {currentUser ? (
               <div className="nav-user-profile-chip">
-                <span className="nav-user-badge caption-2" onClick={openLmsModal} title="لوحة المتدربة">
+                <span
+                  className="nav-user-badge caption-2"
+                  onClick={openLmsModal}
+                  title="متابعة طلبات الاشتراك وكورساتي"
+                >
                   <span className="user-dot"></span>
                   <span>{currentUser.name}</span>
-                  {currentUser.role === 'ADMIN' && (
-                    <span className="admin-chip caption-4">أدمن</span>
-                  )}
                 </span>
+                {currentUser.role === 'ADMIN' && (
+                  <button
+                    type="button"
+                    onClick={openAdminModal}
+                    className="admin-chip caption-4"
+                    style={{ cursor: 'pointer', border: 'none' }}
+                    title="لوحة تحكم طلبات الاشتراك"
+                  >
+                    طلبات الاشتراك
+                  </button>
+                )}
                 <button
                   onClick={logout}
                   className="nav-logout-btn caption-3"
@@ -117,19 +173,29 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => openAuthModal('login')}
-                className="btn-luxury-text button-sm"
-              >
-                تسجيل الدخول
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={openLmsModal}
+                  className="btn-luxury-text button-sm"
+                  title="متابعة حالة طلب الاشتراك"
+                >
+                  كورساتي
+                </button>
+                <button
+                  onClick={() => openAuthModal('login')}
+                  className="btn-luxury-text button-sm"
+                >
+                  تسجيل الدخول
+                </button>
+              </>
             )}
 
             <button
-              onClick={openBookingModal}
+              onClick={() => openBookingModal('pro')}
               className="btn-luxury-primary button-sm"
             >
-              <span>احجزي مقعدكِ</span>
+              <span>اشتركي الآن</span>
             </button>
 
             {/* Mobile Toggle */}
@@ -184,50 +250,60 @@ export default function Navbar() {
           <nav className="drawer-nav">
             <a
               href="#top"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'top' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'top')}
+              className={`drawer-link title-3 ${currentView === 'home' && activeSection === 'top' ? 'active' : ''}`}
             >
               الرئيسية
             </a>
             <a
-              href="#certifications"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'certifications' ? 'active' : ''}`}
+              href="#about-hala"
+              onClick={handleAboutPageNav}
+              className={`drawer-link title-3 ${currentView === 'about' ? 'active' : ''}`}
             >
-              الشهادات والاعتمادات
-            </a>
-            <a
-              href="#about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'about' ? 'active' : ''}`}
-            >
-              عن حلا سامي
-            </a>
-            <a
-              href="#press"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'press' ? 'active' : ''}`}
-            >
-              المقالات والتغطية الإعلامية
+              عن حلا سامي (الشهادات والصحافة)
             </a>
             <a
               href="#course"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'course' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'course')}
+              className={`drawer-link title-3 ${currentView === 'home' && activeSection === 'course' ? 'active' : ''}`}
             >
               المسارات والمنهج
             </a>
             <a
               href="#free"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'free' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'free')}
+              className={`drawer-link title-3 ${currentView === 'home' && activeSection === 'free' ? 'active' : ''}`}
             >
-              الدرس المجاني
+              لقطات التدريب
             </a>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                openLmsModal();
+              }}
+              className="drawer-link title-3"
+              style={{ textAlign: 'right', width: '100%' }}
+            >
+              كورساتي وحالة الطلب
+            </button>
+            {currentUser?.role === 'ADMIN' && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openAdminModal();
+                }}
+                className="drawer-link title-3"
+                style={{ textAlign: 'right', width: '100%', color: 'var(--color-primary)', fontWeight: 600 }}
+              >
+                لوحة طلبات الاشتراك (الأدمن)
+              </button>
+            )}
             <a
               href="#faq"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`drawer-link title-3 ${activeSection === 'faq' ? 'active' : ''}`}
+              onClick={(e) => handleHomeSectionNav(e, 'faq')}
+              className={`drawer-link title-3 ${currentView === 'home' && activeSection === 'faq' ? 'active' : ''}`}
             >
               الأسئلة الشائعة
             </a>
@@ -240,7 +316,10 @@ export default function Navbar() {
                   مسجلة باسم: <strong>{currentUser.name}</strong>
                 </div>
                 <button
-                  onClick={() => { setMobileMenuOpen(false); logout(); }}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    logout();
+                  }}
                   className="drawer-btn-outline button-md"
                 >
                   تسجيل الخروج
@@ -261,11 +340,11 @@ export default function Navbar() {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                openBookingModal();
+                openBookingModal('pro');
               }}
               className="drawer-btn-primary button-md"
             >
-              استمارة الحجز والالتحاق
+              اشتركي في الكورس الآن
             </button>
           </div>
         </div>

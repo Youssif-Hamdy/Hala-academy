@@ -1,68 +1,60 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function TaglineReveal() {
-  const containerRef = useRef(null);
-  const [activeWordsCount, setActiveWordsCount] = useState(0);
+const VISION_LINES = [
+  'الجمال الحقيقي ليس مجرد ملامح تُزيَّن،',
+  'بل مهارة متقنة وهوية واثقة تُبنى خطوة بعد خطوة',
+  'لتصنع حضوركِ وتفتح لكِ آفاق الاحتراف.'
+];
 
-  const text = "الجمال الحقيقي ليس مجرد ملامح تُزيَّن، بل مهارة متقنة وهوية واثقة تُبنى خطوة بعد خطوة لتصنع حضوركِ وتفتح لكِ آفاق الاحتراف.";
-  const words = text.split(' ');
+export default function TaglineReveal() {
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+    const el = sectionRef.current;
+    if (!el) return;
 
-      // Calculate progress as the section moves across the viewport
-      const start = windowHeight * 0.85;
-      const end = windowHeight * 0.25;
-      const current = rect.top;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.22 }
+    );
 
-      if (current > start) {
-        setActiveWordsCount(0);
-      } else if (current < end) {
-        setActiveWordsCount(words.length);
-      } else {
-        const progress = (start - current) / (start - end);
-        const count = Math.min(words.length, Math.floor(progress * words.length));
-        setActiveWordsCount(count);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [words.length]);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section ref={containerRef} className="tagline-reveal-section">
+    <section
+      ref={sectionRef}
+      className={`tagline-reveal-section ${isVisible ? 'is-revealed' : ''}`}
+      aria-label="رؤية وفلسفة الأكاديمية"
+    >
       <div className="container">
-        <div className="tagline-inner">
-          <div className="tagline-badge caption-3">
-            <span>فلسفة الأكاديمية</span>
+        <div className="tagline-editorial-card">
+          <div className="tagline-ornament-top">
+            <span className="tagline-badge">رؤية الأكاديمية</span>
           </div>
 
-          <h2 className="tagline-heading heading-2">
-            {words.map((word, index) => {
-              const isActive = index < activeWordsCount;
-              return (
-                <span
-                  key={index}
-                  className={`tagline-word ${isActive ? 'active' : ''}`}
-                  style={{
-                    transitionDelay: `${Math.min(index * 20, 200)}ms`
-                  }}
-                >
-                  {word}{' '}
-                </span>
-              );
-            })}
-          </h2>
+          <blockquote className="tagline-quote-block">
+            {VISION_LINES.map((line, idx) => (
+              <span
+                key={idx}
+                className="tagline-reveal-line"
+                style={{ '--line-index': idx }}
+              >
+                {line}
+              </span>
+            ))}
+          </blockquote>
 
-          <div className="tagline-author title-3">
-            <span>حلا سامي</span>
-            <span className="tagline-author-title caption-2">· مؤسسة الأكاديمية وخبيرة التجميل</span>
+          <div className="tagline-author-signature">
+            <span className="tagline-author-name">حلا سامي</span>
+            <span className="tagline-author-dot" aria-hidden="true">·</span>
+            <span className="tagline-author-role">مؤسسة الأكاديمية وخبيرة التجميل</span>
           </div>
         </div>
       </div>

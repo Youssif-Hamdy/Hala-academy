@@ -13,9 +13,7 @@ export default function CertificationsStrip() {
       {/* Simple, Elegant Luxury Headline */}
       <div className="cert-strip-header">
         <div className="cert-strip-eyebrow">
-          <span className="cert-star">✦</span>
           <span>ACCREDITATIONS & HONORS</span>
-          <span className="cert-star">✦</span>
         </div>
         <h2 className="cert-strip-title">
           شهادات حلا

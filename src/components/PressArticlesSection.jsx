@@ -13,9 +13,7 @@ export default function PressArticlesSection() {
       {/* Simple, Elegant Luxury Headline */}
       <div className="press-strip-header">
         <div className="press-strip-eyebrow">
-          <span className="press-star">✦</span>
           <span>MEDIA & PRESS COVERAGE</span>
-          <span className="press-star">✦</span>
         </div>
         <h2 className="press-strip-title">
           في الصحافة والإعلام

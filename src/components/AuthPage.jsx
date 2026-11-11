@@ -17,7 +17,9 @@ export default function AuthPage() {
   const [name, setName] = useState('');
   const [identifier, setIdentifier] = useState(''); // phone number or email
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -54,6 +56,11 @@ export default function AuthPage() {
         }
         if (password.length < 6) {
           setErrorMessage('كلمة المرور يجب ألا تقل عن 6 أحرف');
+          setLoading(false);
+          return;
+        }
+        if (password !== confirmPassword) {
+          setErrorMessage('كلمتا المرور غير متطابقتين، يرجى التأكد منهما');
           setLoading(false);
           return;
         }
@@ -99,7 +106,7 @@ export default function AuthPage() {
         
         {/* Left / Form Column */}
         <div className="auth-card-left">
-          {/* Top Bar with Back to Home & Language/Mode */}
+          {/* Top Bar with Back to Home */}
           <div className="auth-card-topbar">
             <button 
               type="button"
@@ -112,25 +119,6 @@ export default function AuthPage() {
               </svg>
               <span>العودة للرئيسية</span>
             </button>
-
-            {mode === 'admin' ? (
-              <button 
-                type="button" 
-                onClick={() => switchToMode('login')} 
-                className="auth-mode-pill-btn"
-              >
-                تسجيل المتدربات
-              </button>
-            ) : (
-              <button 
-                type="button" 
-                onClick={() => switchToMode('admin')} 
-                className="auth-mode-pill-btn"
-                title="لوحة تحكم الإدارة"
-              >
-                دخول الإدارة
-              </button>
-            )}
           </div>
 
           <div className="auth-form-inner-container">
@@ -175,16 +163,16 @@ export default function AuthPage() {
               {mode === 'register' && (
                 <div className="auth-input-group">
                   <label className="auth-input-question title-4">
-                    What's your name?
-                    <span className="auth-input-arabic-sub">ما هو اسمكِ الكريم؟</span>
+                    <span className="auth-input-arabic-sub">الاسم بالكامل</span>
                   </label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your full name / الاسم بالكامل"
+                    placeholder="Enter your full name"
                     className="auth-minimal-input"
+                    dir="ltr"
                     autoComplete="name"
                     autoFocus
                   />
@@ -194,7 +182,6 @@ export default function AuthPage() {
               {/* Phone or Email Field */}
               <div className="auth-input-group">
                 <label className="auth-input-question title-4">
-                  What's your phone number or email?
                   <span className="auth-input-arabic-sub">
                     {mode === 'admin' ? 'البريد الإلكتروني للأدمن' : 'رقم الهاتف أو البريد الإلكتروني'}
                   </span>
@@ -220,7 +207,6 @@ export default function AuthPage() {
               <div className="auth-input-group">
                 <div className="auth-input-header-row">
                   <label className="auth-input-question title-4">
-                    {mode === 'register' ? 'Create password' : 'Password'}
                     <span className="auth-input-arabic-sub">كلمة المرور</span>
                   </label>
                   <button
@@ -242,6 +228,34 @@ export default function AuthPage() {
                   autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
                 />
               </div>
+
+              {/* Confirm Password Field (Only in Register Mode) */}
+              {mode === 'register' && (
+                <div className="auth-input-group">
+                  <div className="auth-input-header-row">
+                    <label className="auth-input-question title-4">
+                      <span className="auth-input-arabic-sub">تأكيد كلمة المرور</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="auth-toggle-pwd-btn caption-2"
+                    >
+                      {showConfirmPassword ? 'إخفاء' : 'إظهار'}
+                    </button>
+                  </div>
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm your password"
+                    className="auth-minimal-input"
+                    dir="ltr"
+                    autoComplete="new-password"
+                  />
+                </div>
+              )}
 
               {/* Primary Continue Button */}
               <button
@@ -348,20 +362,6 @@ export default function AuthPage() {
               alt="Halla Academy Haute-Couture Makeup & Beauty Artistry" 
               className="auth-editorial-image"
             />
-            {/* Subtle luxury brand overlay at bottom */}
-            <div className="auth-visual-overlay">
-              <div className="auth-overlay-badge">
-                <img 
-                  src="/assets/images/hala-emblem.png" 
-                  alt="Halla Emblem" 
-                  className="auth-overlay-emblem"
-                />
-                <div className="auth-overlay-text-group">
-                  <div className="auth-overlay-title">HALLA ACADEMY</div>
-                  <div className="auth-overlay-subtitle">HAUTE-COUTURE MAKEUP ARTISTRY</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 

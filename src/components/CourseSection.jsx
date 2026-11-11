@@ -40,11 +40,8 @@ export default function CourseSection() {
             </p>
 
             <div className="track-price-row">
-              <span className="heading-3" style={{ color: 'var(--color-primary)', lineHeight: 1 }}>
-                1,850
-              </span>
-              <span className="caption-1" style={{ color: 'var(--color-text-muted)' }}>
-                جنيه مصري · وصول غير محدود مدى الحياة
+              <span className="caption-1" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+                6 ساعات تدريبية مكثفة · وصول غير محدود مدى الحياة
               </span>
             </div>
 
@@ -87,11 +84,8 @@ export default function CourseSection() {
             </p>
 
             <div className="track-price-row" style={{ borderColor: 'rgba(240, 216, 214, 0.35)' }}>
-              <span className="heading-3" style={{ color: '#FFFFFF', lineHeight: 1 }}>
-                3,450
-              </span>
-              <span className="caption-1" style={{ color: 'var(--color-accent-soft)' }}>
-                جنيه مصري · شهادة معتمدة موثقة برقم تسلسلي
+              <span className="caption-1" style={{ color: '#FFFFFF', fontWeight: 600 }}>
+                14 ساعة تدريبية متخصصة · شهادة معتمدة موثقة برقم تسلسلي
               </span>
             </div>
 

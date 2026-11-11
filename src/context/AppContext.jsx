@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authApi, applicationsApi } from '../services/api';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { authApi, applicationsApi, enrollmentsApi } from '../services/api';
 
 const AppContext = createContext();
 
@@ -7,8 +7,9 @@ export function AppProvider({ children }) {
   const [selectedTrack, setSelectedTrack] = useState('pro');
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isLmsModalOpen, setIsLmsModalOpen] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
-  
+
   // Auth state
   const [currentUser, setCurrentUser] = useState(() => {
     try {
@@ -26,9 +27,41 @@ export function AppProvider({ children }) {
       if (hash === '#auth' || hash === '#login' || hash === '#signup' || hash === '#register') {
         return 'auth';
       }
+      if (hash === '#about-hala') {
+        return 'about';
+      }
     }
     return 'home';
   });
+
+  // Track student's last submitted email so even before/without login they can track their enrollment request
+  const [lastEnrollmentEmail, setLastEnrollmentEmail] = useState(() => {
+    return localStorage.getItem('hala_last_enrollment_email') || '';
+  });
+  const [myEnrollments, setMyEnrollments] = useState([]);
+
+  const refreshEnrollments = useCallback(async () => {
+    try {
+      const emailToQuery = currentUser?.email || lastEnrollmentEmail;
+      const userIdToQuery = currentUser?.id || '';
+      if (!emailToQuery && !userIdToQuery) {
+        const resAll = await enrollmentsApi.getAllForAdmin();
+        setMyEnrollments(resAll.data || []);
+        return;
+      }
+      const res = await enrollmentsApi.getMyEnrollments({
+        email: emailToQuery,
+        userId: userIdToQuery
+      });
+      setMyEnrollments(res.data || []);
+    } catch (e) {
+      console.warn('Could not refresh enrollments:', e);
+    }
+  }, [currentUser, lastEnrollmentEmail]);
+
+  useEffect(() => {
+    refreshEnrollments();
+  }, [refreshEnrollments]);
 
   // Handle URL hash changes for page routing
   useEffect(() => {
@@ -43,7 +76,18 @@ export function AppProvider({ children }) {
       } else if (hash === '#admin') {
         setAuthModalMode('admin');
         setCurrentView('auth');
-      } else if (hash === '#top' || hash === '' || hash.startsWith('#about') || hash.startsWith('#course') || hash.startsWith('#certifications') || hash.startsWith('#free') || hash.startsWith('#stories') || hash.startsWith('#faq')) {
+      } else if (hash === '#about-hala') {
+        setCurrentView('about');
+      } else if (
+        hash === '#top' ||
+        hash === '' ||
+        hash.startsWith('#about') ||
+        hash.startsWith('#course') ||
+        hash.startsWith('#certifications') ||
+        hash.startsWith('#free') ||
+        hash.startsWith('#stories') ||
+        hash.startsWith('#faq')
+      ) {
         setCurrentView('home');
       }
     };
@@ -61,11 +105,19 @@ export function AppProvider({ children }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToAbout = () => {
+    setCurrentView('about');
+    if (typeof window !== 'undefined') {
+      window.location.hash = '#about-hala';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const navigateToHome = () => {
     setCurrentView('home');
     if (typeof window !== 'undefined') {
       if (window.location.hash) {
-        history.pushState("", document.title, window.location.pathname);
+        history.pushState('', document.title, window.location.pathname);
       }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -80,11 +132,11 @@ export function AppProvider({ children }) {
 
   const [activeVideoChapter, setActiveVideoChapter] = useState('c1');
   const [isPlayingFreeVideo, setIsPlayingFreeVideo] = useState(false);
-  
-  // Student LMS mock state
+
+  // Student LMS state
   const [enrolledStudent, setEnrolledStudent] = useState({
     name: 'مريم العبدالله',
-    email: 'mariam@example.com',
+    email: 'mariam.abdullah@gmail.com',
     trackId: 'pro',
     enrolledAt: '2026-10-15',
     completedLessonIds: ['1-1', '1-2', '2-1']
@@ -116,8 +168,10 @@ export function AppProvider({ children }) {
     setIsAuthModalOpen(false);
   };
 
-  const openBookingModal = () => {
-    setIsBookingModalOpen(true);
+  // Route primary booking triggers to the unified Course Enrollment & WhatsApp Activation modal
+  const openBookingModal = (trackId = 'pro') => {
+    if (typeof trackId === 'string') setSelectedTrack(trackId);
+    setIsEnrollModalOpen(true);
   };
 
   const closeBookingModal = () => {
@@ -130,6 +184,40 @@ export function AppProvider({ children }) {
 
   const closeLmsModal = () => {
     setIsLmsModalOpen(false);
+  };
+
+  const openAdminModal = () => {
+    setIsAdminModalOpen(true);
+  };
+
+  const closeAdminModal = () => {
+    setIsAdminModalOpen(false);
+  };
+
+  const createEnrollmentRequest = async ({ courseId, courseName, fullName, email, phone }) => {
+    const res = await enrollmentsApi.createRequest({
+      userId: currentUser?.id || null,
+      courseId,
+      courseName,
+      fullName,
+      email,
+      phone
+    });
+    localStorage.setItem('hala_last_enrollment_email', email.trim().toLowerCase());
+    setLastEnrollmentEmail(email.trim().toLowerCase());
+    setEnrolledStudent((prev) => ({
+      ...prev,
+      name: fullName,
+      email: email.trim().toLowerCase(),
+      trackId: courseId
+    }));
+    await refreshEnrollments();
+    if (res.isDuplicate) {
+      showToast('لديكِ طلب اشتراك سابق لنفس الكورس، تم فتح بياناته للمتابعة.');
+    } else {
+      showToast('تم حفظ طلب الاشتراك وتجهيز رسالة WhatsApp!');
+    }
+    return res;
   };
 
   // Auth actions
@@ -206,6 +294,7 @@ export function AppProvider({ children }) {
         closeAuthModal,
         currentView,
         navigateToAuth,
+        navigateToAbout,
         navigateToHome,
         currentUser,
         login: handleLogin,
@@ -213,6 +302,12 @@ export function AppProvider({ children }) {
         register: handleRegister,
         logout: handleLogout,
         submitApplication: handleApplicationSubmit,
+        myEnrollments,
+        refreshEnrollments,
+        createEnrollmentRequest,
+        isAdminModalOpen,
+        openAdminModal,
+        closeAdminModal,
         activeCertificate,
         setActiveCertificate,
         activePost,

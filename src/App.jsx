@@ -2,9 +2,9 @@ import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import CertificationsStrip from './components/CertificationsStrip';
+import LuxuryPillarsSection from './components/LuxuryPillarsSection';
 import AboutHala from './components/AboutHala';
-import PressArticlesSection from './components/PressArticlesSection';
+import AboutHalaPage from './components/AboutHalaPage';
 import TaglineReveal from './components/TaglineReveal';
 import CourseSection from './components/CourseSection';
 import FreeVideoSection from './components/FreeVideoSection';
@@ -20,6 +20,7 @@ import BookingModal from './components/BookingModal';
 import MediaLightboxModal from './components/MediaLightboxModal';
 import CheckoutModal from './components/CheckoutModal';
 import StudentLmsModal from './components/StudentLmsModal';
+import AdminDashboardModal from './components/AdminDashboardModal';
 import Toast from './components/Toast';
 
 import './styles/theme.css';
@@ -42,16 +43,21 @@ function AppContent() {
       <a href="#main-content" className="skip-link">تخطي إلى المحتوى الرئيسي</a>
       <Navbar />
       <main id="main-content">
-        <Hero />
-        <CertificationsStrip />
-        <AboutHala />
-        <PressArticlesSection />
-        <TaglineReveal />
-        <CourseSection />
-        <FreeVideoSection />
-        <StoriesReviews />
-        <CtaBanner />
-        <FaqSection />
+        {currentView === 'about' ? (
+          <AboutHalaPage />
+        ) : (
+          <>
+            <Hero />
+            <LuxuryPillarsSection />
+            <AboutHala />
+            <TaglineReveal />
+            <CourseSection />
+            <FreeVideoSection />
+            <StoriesReviews />
+            <CtaBanner />
+            <FaqSection />
+          </>
+        )}
       </main>
       <Footer />
 
@@ -61,6 +67,7 @@ function AppContent() {
       <MediaLightboxModal />
       <CheckoutModal />
       <StudentLmsModal />
+      <AdminDashboardModal />
       <Toast />
     </div>
   );
