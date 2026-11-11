@@ -2,32 +2,45 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const PROMO_IMAGES = [
   {
-    src: '/assets/images/prand/Playful%20Arabic%20Makeup%20Quiz%20Ad.png',
+    src: '/assets/images/prand/Playful Arabic Makeup Quiz Ad.png',
     alt: 'إعلان أكاديمية حلا سامي'
   },
   {
-    src: '/assets/images/prand/You%27re%20Still%20Just%20Getting%20Started.png',
+    src: "/assets/images/prand/You're Still Just Getting Started.png",
     alt: 'رسالة من أكاديمية حلا سامي'
   }
 ];
 
-const FIRST_SHOW_MS  = 8000;          // يظهر أول مرة بعد 8 ثواني
-const INTERVAL_MS    = 2 * 60 * 1000; // كل دقيقتين بعد ذلك
+const FIRST_SHOW_MS = 10000;         // يظهر أول مرة بعد 10 ثواني
+const INTERVAL_MS   = 2 * 60 * 1000; // كل دقيقتين
 
 /**
  * PromoPopup — إعلان دوري يظهر في منتصف الشاشة كل دقيقتين
- * يتبدّل بين الصورتين بالتسلسل
+ * يتبدّل بين الصورتين بالتسلسل، ويظهر فقط بعد تحميل الصورة
  */
 export default function PromoPopup() {
   const [visible, setVisible]       = useState(false);
-  const [animState, setAnimState]   = useState(''); // '' | 'entering' | 'leaving'
+  const [animState, setAnimState]   = useState('');
   const [currentIdx, setCurrentIdx] = useState(0);
-  const idxRef = useRef(0);
+  const [imgLoaded, setImgLoaded]   = useState(false);
+  const idxRef   = useRef(0);
+  const imgCache = useRef({});
+
+  /* ── Preload كل الصور عند بداية التشغيل ── */
+  useEffect(() => {
+    PROMO_IMAGES.forEach(({ src }) => {
+      if (imgCache.current[src]) return;
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => { imgCache.current[src] = true; };
+    });
+  }, []);
 
   const showPromo = () => {
     const idx = idxRef.current % PROMO_IMAGES.length;
     idxRef.current += 1;
     setCurrentIdx(idx);
+    setImgLoaded(!!imgCache.current[PROMO_IMAGES[idx].src]);
     setAnimState('entering');
     setVisible(true);
     setTimeout(() => setAnimState(''), 450);
@@ -42,12 +55,8 @@ export default function PromoPopup() {
   };
 
   useEffect(() => {
-    // الظهور الأول
     const firstTimer = setTimeout(showPromo, FIRST_SHOW_MS);
-
-    // دوري كل دقيقتين
-    const interval = setInterval(showPromo, INTERVAL_MS);
-
+    const interval   = setInterval(showPromo, INTERVAL_MS);
     return () => {
       clearTimeout(firstTimer);
       clearInterval(interval);
@@ -71,26 +80,29 @@ export default function PromoPopup() {
         onClick={(e) => e.stopPropagation()}
       >
         {/* زر الإغلاق */}
-        <button
-          className="promo-close-btn"
-          onClick={dismiss}
-          aria-label="إغلاق الإعلان"
-        >
+        <button className="promo-close-btn" onClick={dismiss} aria-label="إغلاق">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
 
-        {/* الصورة */}
+        {/* Skeleton أثناء التحميل */}
+        {!imgLoaded && (
+          <div className="promo-img-skeleton" aria-hidden="true" />
+        )}
+
+        {/* الصورة — مخفية حتى تتحمّل */}
         <img
           src={img.src}
           alt={img.alt}
           className="promo-img"
           draggable={false}
           loading="eager"
+          style={{ display: imgLoaded ? 'block' : 'none' }}
+          onLoad={() => setImgLoaded(true)}
           onError={(e) => {
             console.warn('[PromoPopup] فشل تحميل الصورة:', img.src);
-            e.currentTarget.style.display = 'none';
+            dismiss(); // أغلق الـ popup لو الصورة فشلت
           }}
         />
 

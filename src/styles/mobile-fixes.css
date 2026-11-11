@@ -1673,3 +1673,48 @@
     max-height: 65vh;
   }
 }
+
+/* ==========================================================================
+   22. HERO VIDEO — تخفيف الـ overlay عشان الفيديو يبان أوضح
+   ========================================================================== */
+
+/* الـ veil فوق الفيديو مباشرة */
+.hero-video-veil {
+  background: rgba(58, 16, 28, 0.22) !important;
+}
+
+@media (min-width: 992px) {
+  .hero-video-veil {
+    background: rgba(68, 20, 35, 0.18) !important;
+  }
+}
+
+/* الـ gradient الرأسي — أخف بكثير على الموبايل */
+.hero-gradient-overlay-h {
+  background: linear-gradient(
+    to bottom,
+    rgba(64, 18, 32, 0.35) 0%,
+    rgba(54, 15, 27, 0.28) 42%,
+    rgba(44, 11, 21, 0.50) 100%
+  ) !important;
+}
+
+/* ==========================================================================
+   23. PROMO POPUP — Skeleton أثناء تحميل الصورة
+   ========================================================================== */
+
+.promo-img-skeleton {
+  width: 100%;
+  min-height: 320px;
+  background: linear-gradient(90deg, #f0e8e5 25%, #e8dbd8 50%, #f0e8e5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 20px 20px 0 0;
+}
+
+@media (max-width: 767px) {
+  .promo-img-skeleton {
+    min-height: 260px;
+    border-radius: 16px 16px 0 0;
+  }
+}

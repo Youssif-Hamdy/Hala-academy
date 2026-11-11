@@ -21,6 +21,10 @@ export function AppProvider({ children }) {
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'register' | 'admin'
+  // pendingIntent: يحفظ الإجراء المطلوب قبل تسجيل الدخول ليُنفَّذ تلقائياً بعده
+  // null | { type: 'enroll', trackId: string } | { type: 'application' }
+  const [pendingIntent, setPendingIntent] = useState(null);
+
   const [currentView, setCurrentView] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
@@ -121,6 +125,20 @@ export function AppProvider({ children }) {
       }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // تنفيذ الإجراء المؤجّل (pendingIntent) بعد تسجيل الدخول
+    if (pendingIntent) {
+      const intent = pendingIntent;
+      setPendingIntent(null);
+      setTimeout(() => {
+        if (intent.type === 'enroll') {
+          if (intent.trackId) setSelectedTrack(intent.trackId);
+          setIsEnrollModalOpen(true);
+        } else if (intent.type === 'application') {
+          setIsBookingModalOpen(true);
+        }
+      }, 400);
+    }
   };
 
   // Booking / Application Modal state
@@ -152,6 +170,12 @@ export function AppProvider({ children }) {
   };
 
   const openEnrollModal = (trackId) => {
+    if (!currentUser) {
+      // غير مسجلة دخول — احفظ النية وروّح للتسجيل
+      setPendingIntent({ type: 'enroll', trackId: trackId || 'pro' });
+      navigateToAuth('login');
+      return;
+    }
     if (trackId) setSelectedTrack(trackId);
     setIsEnrollModalOpen(true);
   };
@@ -170,8 +194,25 @@ export function AppProvider({ children }) {
 
   // Route primary booking triggers to the unified Course Enrollment & WhatsApp Activation modal
   const openBookingModal = (trackId = 'pro') => {
+    if (!currentUser) {
+      // غير مسجلة دخول — احفظ النية وروّح للتسجيل
+      setPendingIntent({ type: 'enroll', trackId });
+      navigateToAuth('login');
+      return;
+    }
     if (typeof trackId === 'string') setSelectedTrack(trackId);
     setIsEnrollModalOpen(true);
+  };
+
+  // openApplicationModal — يفتح نموذج استمارة التقديم (BookingModal / POST /api/applications)
+  const openApplicationModal = () => {
+    if (!currentUser) {
+      // غير مسجلة دخول — احفظ النية وروّح للتسجيل
+      setPendingIntent({ type: 'application' });
+      navigateToAuth('login');
+      return;
+    }
+    setIsBookingModalOpen(true);
   };
 
   const closeBookingModal = () => {
@@ -298,6 +339,7 @@ export function AppProvider({ children }) {
         closeEnrollModal,
         isBookingModalOpen,
         openBookingModal,
+        openApplicationModal,
         closeBookingModal,
         isAuthModalOpen,
         authModalMode,

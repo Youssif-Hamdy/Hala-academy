@@ -44,6 +44,14 @@ export default function CheckoutModal() {
 
   if (!isEnrollModalOpen) return null;
 
+  /* ── handleClose مرفوع فوق الـ guard عشان يكون متاح فيه ── */
+  const handleClose = () => {
+    setSubmittedRequest(null);
+    setWasDuplicate(false);
+    setErrorMessage('');
+    closeEnrollModal();
+  };
+
   /* ── Guard: يتطلب تسجيل الدخول ── */
   if (!currentUser) {
     return (
@@ -86,13 +94,6 @@ export default function CheckoutModal() {
 
   const currentTrack =
     ACADEMY_DATA.tracks.find((t) => t.id === selectedTrack) || ACADEMY_DATA.tracks[1];
-
-  const handleClose = () => {
-    setSubmittedRequest(null);
-    setWasDuplicate(false);
-    setErrorMessage('');
-    closeEnrollModal();
-  };
 
   const handleSubmitRequest = async (e) => {
     e.preventDefault();
