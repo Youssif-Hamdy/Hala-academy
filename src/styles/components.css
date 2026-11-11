@@ -407,8 +407,27 @@
     bottom: 0;
     left: 0;
     right: auto;
-    width: 58%;
+    width: 72%;
     height: 100%;
+    /* Dissolve the video into the burgundy instead of a hard column edge */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 38%,
+      rgba(0, 0, 0, 0.72) 52%,
+      rgba(0, 0, 0, 0.32) 68%,
+      rgba(0, 0, 0, 0.08) 82%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 38%,
+      rgba(0, 0, 0, 0.72) 52%,
+      rgba(0, 0, 0, 0.32) 68%,
+      rgba(0, 0, 0, 0.08) 82%,
+      transparent 100%
+    );
   }
 }
 
@@ -423,7 +442,7 @@
 
 @media (min-width: 992px) {
   .hero-video-element {
-    opacity: 0.94;
+    opacity: 1;
     object-position: center 30%;
   }
 }
@@ -459,15 +478,15 @@
 
 @media (min-width: 992px) {
   .hero-gradient-overlay-h {
-    /* يغطي الجزء الأيمن (الحمراني) بالكامل ~42% ويتلاشى نحو الفيديو */
+    /* بورجوندي للنص يمين فقط، والفيديو شبه مكشوف */
     background: linear-gradient(
       to left,
       #4A1626 0%,
-      #4A1626 40%,
-      rgba(74, 22, 38, 0.95) 50%,
-      rgba(74, 22, 38, 0.65) 62%,
-      rgba(74, 22, 38, 0.22) 78%,
-      rgba(74, 22, 38, 0.06) 100%
+      #4A1626 16%,
+      rgba(74, 22, 38, 0.42) 26%,
+      rgba(74, 22, 38, 0.16) 38%,
+      rgba(74, 22, 38, 0.04) 52%,
+      rgba(74, 22, 38, 0.00) 68%
     );
   }
 }
@@ -486,8 +505,8 @@
 
 @media (min-width: 992px) {
   .hero-gradient-overlay-v {
-    height: 220px;
-    background: linear-gradient(to top, #320E19 0%, rgba(50, 14, 25, 0.88) 25%, rgba(50, 14, 25, 0.40) 65%, transparent 100%);
+    height: 140px;
+    background: linear-gradient(to top, #320E19 0%, rgba(50, 14, 25, 0.45) 35%, transparent 100%);
   }
 }
 
@@ -505,8 +524,8 @@
 
 @media (min-width: 992px) {
   .hero-gradient-overlay-top {
-    height: 110px;
-    background: linear-gradient(to bottom, rgba(46, 12, 22, 0.50) 0%, transparent 100%);
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(46, 12, 22, 0.28) 0%, transparent 100%);
   }
 }
 
@@ -531,6 +550,17 @@
   z-index: 5;
 }
 
+@media (min-width: 992px) {
+  .hero-container.container,
+  .hero-container {
+    /* Full viewport so the 42/58 split matches the video pane (not a 1200px box). */
+    max-width: none;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .hero-layout-grid {
   display: flex;
   flex-direction: column;
@@ -541,8 +571,8 @@
 @media (min-width: 992px) {
   .hero-layout-grid {
     display: grid;
-    /* Column 1 (Right in RTL) = Content/Red zone ~42%, Column 2 (Left) = Video zone ~58% */
-    grid-template-columns: 0.72fr 1.28fr;
+    /* RTL col-1 = right burgundy. Video pane is 58% from the left. */
+    grid-template-columns: 38fr 62fr;
     align-items: center;
     gap: 0;
     min-height: calc(100vh - 160px);
@@ -565,13 +595,15 @@
   .hero-content-col {
     text-align: right;
     align-items: flex-start;
+    justify-self: start;
     margin: 0;
-    max-width: 100%;
+    max-width: min(520px, 100%);
     width: 100%;
-    padding-top: var(--spacing-200);
-    padding-bottom: var(--spacing-200);
-    padding-right: var(--spacing-500);
-    padding-left: var(--spacing-200);
+    padding-top: var(--spacing-300);
+    padding-bottom: var(--spacing-300);
+    /* start = يمين الشاشة · end = حد الفيديو */
+    padding-inline-start: var(--spacing-700);
+    padding-inline-end: var(--spacing-400);
     box-sizing: border-box;
   }
 }
@@ -623,7 +655,7 @@
   .hero-title {
     text-align: right;
     margin-bottom: 30px;
-    font-size: clamp(26px, 2.7vw, 37px);
+    font-size: clamp(24px, 2.4vw, 36px);
     line-height: 1.48;
     max-width: 100%;
     text-shadow: none;
@@ -648,7 +680,7 @@
   .hero-subtitle {
     text-align: right;
     margin-bottom: 44px;
-    font-size: clamp(14.5px, 1.05vw, 16px);
+    font-size: clamp(14px, 1vw, 15.5px);
     line-height: 2.0;
     max-width: 100%;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
@@ -813,9 +845,9 @@
 @media (min-width: 992px) {
   .hero-simple-highlights {
     justify-content: flex-start;
-    gap: 34px;
-    max-width: 480px;
-    flex-wrap: nowrap;
+    gap: 24px;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 }
 

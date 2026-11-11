@@ -1685,18 +1685,20 @@
 
 @media (min-width: 992px) {
   .hero-video-veil {
-    background: rgba(68, 20, 35, 0.18) !important;
+    background: transparent !important;
   }
 }
 
-/* الـ gradient الرأسي — أخف بكثير على الموبايل */
-.hero-gradient-overlay-h {
-  background: linear-gradient(
-    to bottom,
-    rgba(64, 18, 32, 0.35) 0%,
-    rgba(54, 15, 27, 0.28) 42%,
-    rgba(44, 11, 21, 0.50) 100%
-  ) !important;
+/* الـ gradient الرأسي — أخف بكثير على الموبايل فقط */
+@media (max-width: 991px) {
+  .hero-gradient-overlay-h {
+    background: linear-gradient(
+      to bottom,
+      rgba(64, 18, 32, 0.35) 0%,
+      rgba(54, 15, 27, 0.28) 42%,
+      rgba(44, 11, 21, 0.50) 100%
+    ) !important;
+  }
 }
 
 /* ==========================================================================
