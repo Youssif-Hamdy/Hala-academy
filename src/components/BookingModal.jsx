@@ -19,6 +19,70 @@ export default function BookingModal() {
 
   if (!isBookingModalOpen) return null;
 
+  /* ── Guard: يتطلب تسجيل الدخول ── */
+  if (!currentUser) {
+    const handleClose = () => {
+      closeBookingModal();
+    };
+    return (
+      <div className="modal-overlay" onClick={handleClose} role="dialog" aria-modal="true">
+        <div
+          className="luxury-modal-sheet large booking-modal-sheet"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="luxury-modal-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <img
+                src="/assets/images/hala-emblem.png"
+                alt="Halla Emblem"
+                style={{ width: '36px', height: '36px', objectFit: 'contain' }}
+              />
+              <div>
+                <div className="luxury-modal-brand-tag caption-4">
+                  استمارة الحجز والالتحاق الرسمية · APPLICATION FORM
+                </div>
+                <h3 className="luxury-modal-title title-2">
+                  طلب الانضمام لأكاديمية حلا سامي
+                </h3>
+              </div>
+            </div>
+            <button
+              onClick={handleClose}
+              className="luxury-modal-close"
+              aria-label="إغلاق"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          {/* Body: رسالة تسجيل الدخول */}
+          <div className="luxury-modal-body-scroll booking-modal-body">
+            <div className="checkout-auth-required-wrap">
+              <div className="checkout-auth-icon" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 8v4M12 16h.01" />
+                </svg>
+              </div>
+              <h4 className="title-2 checkout-auth-title">تقديم الاستمارة يتطلب تسجيل الدخول</h4>
+              <p className="body-3 checkout-auth-desc">
+                يرجى تسجيل الدخول أو إنشاء حساب جديد قبل تقديم استمارة الالتحاق الرسمية بأكاديمية حلا سامي.
+              </p>
+              <button
+                onClick={() => { handleClose(); openAuthModal('login'); }}
+                className="btn-luxury-primary button-md checkout-auth-login-btn"
+              >
+                تسجيل الدخول / إنشاء حساب
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const countWords = (text) => {
     return text.trim().split(/\s+/).filter(Boolean).length;
   };
@@ -63,9 +127,14 @@ export default function BookingModal() {
     setLoading(true);
     try {
       const app = await submitApplication(name.trim(), currentChallenges.trim(), courseGoal.trim());
-      setSubmittedApp(app);
+      setSubmittedApp(app || { name: name.trim() });
     } catch (err) {
-      setErrorMessage(err.message || 'حدث خطأ أثناء تقديم الاستمارة، يرجى مراجعة البيانات.');
+      /* 409 Conflict = سبق تقديم استمارة من هذا الحساب */
+      if (err.status === 409) {
+        setErrorMessage('لقد قدّمتِ استمارة التحاق مسبقاً. يحق لكل مستخدمة تقديم استمارة واحدة فقط. سيتم التواصل معكِ قريباً.');
+      } else {
+        setErrorMessage(err.message || 'حدث خطأ أثناء تقديم الاستمارة، يرجى مراجعة البيانات والمحاولة مرة أخرى.');
+      }
     } finally {
       setLoading(false);
     }

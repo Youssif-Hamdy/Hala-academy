@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { ACADEMY_DATA } from '../data/courseData';
 
 export default function CourseSection() {
-  const { openEnrollModal } = useApp();
+  const { openEnrollModal, openBookingModal, openAuthModal, currentUser } = useApp();
   const [expandedUnit, setExpandedUnit] = useState(null);
   const { modules } = ACADEMY_DATA;
 
@@ -47,23 +47,10 @@ export default function CourseSection() {
 
             <button
               onClick={() => openEnrollModal('self')}
-              className="button-md"
-              style={{
-                background: '#FFFFFF',
-                color: 'var(--color-primary)',
-                border: '1px solid var(--color-primary)',
-                minHeight: '48px',
-                padding: '0 var(--spacing-300)',
-                borderRadius: 'var(--radius-md)',
-                marginTop: 'auto',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 'var(--spacing-100)'
-              }}
+              className="track-card-btn track-card-btn--outline"
             >
               <span>اختاري مسار أتعلّم لنفسي</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
             </button>
@@ -91,27 +78,40 @@ export default function CourseSection() {
 
             <button
               onClick={() => openEnrollModal('pro')}
-              className="button-md"
-              style={{
-                background: '#FFFFFF',
-                color: 'var(--color-primary)',
-                minHeight: '48px',
-                padding: '0 var(--spacing-300)',
-                borderRadius: 'var(--radius-md)',
-                marginTop: 'auto',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 'var(--spacing-100)',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.15)'
-              }}
+              className="track-card-btn track-card-btn--white"
             >
               <span>اختاري مسار الاحتراف الكامل</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M11 6l-6 6 6 6"></path>
               </svg>
             </button>
           </div>
+        </div>
+
+        {/* ── CTA: تقديم استمارة الالتحاق الرسمية ── */}
+        <div className="course-application-cta">
+          <p className="caption-2 course-application-cta__hint">
+            هل أنتِ جادة في الالتحاق بالأكاديمية؟ قدّمي استمارتك الرسمية الآن.
+          </p>
+          <button
+            type="button"
+            onClick={() => currentUser ? openBookingModal() : openAuthModal('login')}
+            className="course-application-cta__btn btn-luxury-primary button-md"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <span>تقديم استمارة الالتحاق الرسمية</span>
+          </button>
+          {!currentUser && (
+            <span className="caption-4 course-application-cta__note">
+              يتطلب تسجيل الدخول أولاً
+            </span>
+          )}
         </div>
 
         {/* Modules Header */}

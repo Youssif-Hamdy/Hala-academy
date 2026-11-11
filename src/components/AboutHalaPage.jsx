@@ -233,7 +233,7 @@ export default function AboutHalaPage() {
             <p className="body-2" style={{ color: 'var(--color-accent-soft)', maxWidth: '520px', margin: '0 auto 24px' }}>
               اختاري المسار التدريبي المناسب لكِ وابدئي تطبيق أحدث تقنيات المكياج خطوة بخطوة.
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
+            <div className="about-cta-buttons-row">
               <button
                 type="button"
                 onClick={openBookingModal}

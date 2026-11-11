@@ -6,7 +6,7 @@
 
 const getBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+    return import.meta.env.VITE_API_URL.replace(/\/$/, ''); // إزالة trailing slash لو موجود
   }
   if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
     return window.location.origin;
@@ -16,8 +16,8 @@ const getBaseUrl = () => {
 
 const BASE_URL = getBaseUrl();
 
-// Official Academy WhatsApp number for receiving pre-filled enrollment requests
-export const ACADEMY_WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '201000000000';
+// Official Academy WhatsApp number — Libyan number for receiving enrollment requests
+export const ACADEMY_WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '218946122679';
 
 /**
  * Build the official pre-filled WhatsApp message per Section 3 of the specification
@@ -120,7 +120,12 @@ export function getStoredAuditLogs() {
 
 /**
  * Core fetch wrapper with credentials: "include" for HttpOnly Cookie authentication
+ * Endpoints التي تتطلب backend حقيقي ولا يجب محاكاتها محلياً
  */
+const REAL_BACKEND_ONLY_PATTERNS = [
+  '/api/applications'
+];
+
 export async function apiFetch(endpoint, options = {}) {
   const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint}`;
 
@@ -128,6 +133,19 @@ export async function apiFetch(endpoint, options = {}) {
     'Content-Type': 'application/json',
     ...(options.headers || {})
   };
+
+  // إذا كان هناك token في localStorage، نضيفه كـ Authorization header
+  try {
+    const sessionRaw = localStorage.getItem('hala_session_user');
+    if (sessionRaw) {
+      const session = JSON.parse(sessionRaw);
+      if (session?.token) {
+        headers['Authorization'] = `Bearer ${session.token}`;
+      }
+    }
+  } catch (_) { /* تجاهل أخطاء parsing */ }
+
+  const isRealBackendOnly = REAL_BACKEND_ONLY_PATTERNS.some((p) => endpoint.startsWith(p));
 
   try {
     const res = await fetch(url, {
@@ -147,6 +165,17 @@ export async function apiFetch(endpoint, options = {}) {
 
     return data;
   } catch (err) {
+    // إذا كان الـ endpoint يتطلب backend حقيقي، نرفع الخطأ مباشرة بدون offline simulation
+    if (isRealBackendOnly) {
+      if (!err.status) {
+        // Network error (fetch failed)
+        const networkErr = new Error('تعذّر الاتصال بالخادم. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
+        networkErr.status = 0;
+        throw networkErr;
+      }
+      throw err;
+    }
+
     if (err.status && err.status !== 404) {
       throw err;
     }
@@ -492,6 +521,14 @@ export const enrollmentsApi = {
 };
 
 export const applicationsApi = {
+  /**
+   * إرسال استمارة التقديم — POST /api/applications
+   * يتطلب تسجيل الدخول (HttpOnly Cookie من الـ backend)
+   * Payload: { name, currentChallenges, courseGoal }
+   * - currentChallenges: 50-500 كلمة
+   * - courseGoal: 50-500 كلمة
+   * - يحق لكل مستخدم إرسال استمارة واحدة فقط (409 Conflict إذا أرسل ثانية)
+   */
   submit: (name, currentChallenges, courseGoal) =>
     apiFetch('/api/applications', {
       method: 'POST',

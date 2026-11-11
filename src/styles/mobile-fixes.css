@@ -1,0 +1,1299 @@
+/* ==========================================================================
+   MOBILE RESPONSIVE FIXES — Halla Academy
+   Covers: Buttons, Cards, About Hala, Course Modals, Sidebar/Drawer
+   Breakpoints: max-width: 767px (mobile), max-width: 480px (small mobile)
+   ========================================================================== */
+
+/* ==========================================================================
+   0A. ABOUT CTA BUTTONS ROW — Responsive flex row
+   ========================================================================== */
+
+.about-cta-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .about-cta-buttons-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .about-cta-buttons-row .about-cta-primary-btn,
+  .about-cta-buttons-row .about-cta-secondary-btn {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   0. TRACK CARD BUTTONS — New semantic classes replacing inline styles
+   ========================================================================== */
+
+.track-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all var(--duration-fast) var(--motion-base);
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.track-card-btn--outline {
+  background: #FFFFFF;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+}
+
+.track-card-btn--outline:hover {
+  background: var(--color-primary-subtle);
+}
+
+.track-card-btn--white {
+  background: #FFFFFF;
+  color: var(--color-primary);
+  border: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.track-card-btn--white:hover {
+  background: #FAF0EC;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==========================================================================
+   1. GLOBAL BUTTON & TEXT FIXES ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* ── btn-luxury-primary: fix overflow & font on small screens ── */
+  .btn-luxury-primary {
+    font-size: 14px;
+    padding: 0 20px;
+    min-height: 46px;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  /* When inside a flex/button row, allow wrapping */
+  .about-teaser-actions .btn-luxury-primary,
+  .about-page-cta-box .about-cta-primary-btn,
+  .about-page-cta-box .about-cta-secondary-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Fix button text overflow */
+  .btn-luxury-primary span,
+  .btn-whatsapp-submit span,
+  .btn-whatsapp-send span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  /* Hero CTA buttons on mobile */
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    font-size: 13.5px;
+    padding: 0 18px;
+    min-height: 46px;
+    flex: 1 1 auto;
+    min-width: 130px;
+  }
+
+  /* Track card buttons – prevent text overflow, full width */
+  .track-card-btn {
+    font-size: 14px;
+    padding: 0 18px;
+    min-height: 46px;
+    width: 100%;
+  }
+
+  /* Booking modal submit row */
+  .booking-submit-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-submit-row .btn-luxury-primary {
+    width: 100%;
+  }
+
+  /* Drawer action buttons */
+  .drawer-btn-outline,
+  .drawer-btn-primary {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small – stack hero CTAs */
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100%;
+    font-size: 13px;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .track-card-btn {
+    font-size: 13px;
+    padding: 0 14px;
+    min-height: 44px;
+  }
+}
+
+
+/* ==========================================================================
+   2. TRACK CARDS / COURSE CARDS FIXES ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Reduce excess padding in cards */
+  .track-card-for-you,
+  .track-card-pro {
+    padding: var(--spacing-300) var(--spacing-300);
+  }
+
+  /* Track heading – prevent huge font overflowing */
+  .track-heading {
+    font-size: clamp(20px, 5vw, 26px) !important;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  /* Track description */
+  .track-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: var(--spacing-200);
+  }
+
+  /* Track price row */
+  .track-price-row {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: var(--spacing-300);
+    padding-top: var(--spacing-100);
+  }
+
+  .track-price-row span {
+    font-size: 12.5px !important;
+    line-height: 1.5;
+  }
+
+  /* Track Latin tag */
+  .track-tag-latin {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    margin-bottom: var(--spacing-100);
+  }
+
+  /* Course section intro */
+  .course-intro-box {
+    margin-bottom: var(--spacing-400);
+  }
+
+  /* Modules: reduce giant number */
+  .module-code-number {
+    font-size: 28px;
+    min-width: 38px;
+  }
+
+  .modules-wrapper {
+    margin-top: var(--spacing-400);
+    padding-top: var(--spacing-400);
+  }
+
+  /* Luxury pillar cards */
+  .luxury-pillar-card {
+    padding: var(--spacing-200) var(--spacing-200);
+  }
+
+  .luxury-pillar-heading {
+    font-size: 16px !important;
+  }
+
+  .luxury-pillar-desc {
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .track-card-for-you,
+  .track-card-pro {
+    padding: 20px 18px;
+  }
+
+  .track-heading {
+    font-size: 19px !important;
+  }
+
+  .module-item-row {
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) 0;
+  }
+}
+
+
+/* ==========================================================================
+   3. ABOUT HALA HOME TEASER — MOBILE FIXES
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* About home teaser – reduce section padding */
+  .about-home-teaser {
+    padding: var(--spacing-500) 0;
+  }
+
+  /* About grid – reduce gap */
+  .about-grid {
+    gap: var(--spacing-400);
+  }
+
+  /* Limit image wrapper width on mobile */
+  .about-image-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Portrait image – shorter aspect ratio */
+  .about-image-card {
+    aspect-ratio: 3/4;
+  }
+
+  /* Floating stat badge – keep inside card bounds */
+  .about-floating-stat {
+    right: -4px;
+    bottom: 4px;
+    font-size: 12px;
+    padding: 7px 11px;
+    max-width: 160px;
+  }
+
+  .about-floating-stat strong {
+    font-size: 14px;
+  }
+
+  .about-floating-stat span {
+    font-size: 11px;
+  }
+
+  /* About content column – center on mobile */
+  .about-content-col {
+    text-align: center;
+  }
+
+  .about-teaser-content {
+    align-items: center;
+  }
+
+  /* Teaser actions – center and constrain */
+  .about-teaser-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .about-teaser-actions .btn-luxury-primary {
+    font-size: 13.5px;
+    padding: 0 20px;
+    min-height: 46px;
+    max-width: 340px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* Section eyebrow in about */
+  .about-content-col .section-eyebrow {
+    text-align: center;
+  }
+
+  /* Section title in about */
+  .about-content-col .section-title,
+  .about-content-col h2,
+  .about-content-col h1 {
+    font-size: clamp(22px, 5.5vw, 28px) !important;
+    text-align: center;
+  }
+
+  /* About paragraph */
+  .about-p {
+    font-size: 14px;
+    line-height: 1.75;
+    text-align: center;
+  }
+
+  /* Metrics row – scroll or wrap */
+  .about-metrics-row {
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: var(--spacing-300) 0;
+    padding: var(--spacing-200) 0;
+  }
+
+  .metric-number {
+    font-size: 22px !important;
+  }
+
+  .metric-label {
+    font-size: 11.5px;
+  }
+
+  .about-metric-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-image-wrapper {
+    max-width: 240px;
+  }
+
+  .about-floating-stat {
+    right: -2px;
+    bottom: 2px;
+    max-width: 140px;
+  }
+}
+
+
+/* ==========================================================================
+   4. ABOUT HALA DEDICATED PAGE — MOBILE FIXES
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* About page hero */
+  .about-page-hero-section {
+    padding-top: calc(64px + var(--spacing-300));
+    padding-bottom: var(--spacing-400);
+  }
+
+  /* Back pill button */
+  .about-back-pill-btn {
+    font-size: 12.5px;
+    padding: 6px 12px;
+  }
+
+  /* Tabs strip – horizontal scroll */
+  .about-tabs-strip {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+    margin: var(--spacing-200) 0;
+    padding-bottom: 2px;
+  }
+
+  .about-tabs-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-tab-btn {
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 7px 12px;
+    flex-shrink: 0;
+  }
+
+  .about-tab-panel-box {
+    font-size: 14px;
+    line-height: 1.75;
+    padding: var(--spacing-200);
+    min-height: auto;
+  }
+
+  /* Milestones section */
+  .about-milestones-showcase {
+    padding: var(--spacing-500) 0;
+  }
+
+  .about-milestones-header h2 {
+    font-size: clamp(22px, 6vw, 30px) !important;
+  }
+
+  .about-milestones-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-200);
+  }
+
+  .about-milestone-card {
+    padding: 18px 20px;
+  }
+
+  .about-milestone-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* Certifications strip */
+  .cert-strip-header {
+    padding: 0 var(--spacing-200);
+    text-align: center;
+  }
+
+  .cert-strip-title {
+    font-size: clamp(22px, 5.5vw, 30px);
+  }
+
+  /* Press strip */
+  .press-strip-header {
+    padding: 0 var(--spacing-200);
+    text-align: center;
+  }
+
+  .press-strip-title {
+    font-size: clamp(22px, 5.5vw, 30px);
+  }
+
+  /* Page bottom CTA */
+  .about-page-bottom-cta {
+    padding: var(--spacing-400) 0 var(--spacing-500);
+  }
+
+  .about-page-cta-box {
+    padding: var(--spacing-400) var(--spacing-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .about-page-cta-box h2 {
+    font-size: clamp(20px, 5.5vw, 26px) !important;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .about-page-cta-box p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 20px !important;
+  }
+
+  /* Stack CTA buttons vertically */
+  .about-page-cta-box > div[style] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .about-cta-primary-btn,
+  .about-cta-secondary-btn {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+/* ==========================================================================
+   5. CHECKOUT / ENROLLMENT MODAL FIXES ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Modal overlay */
+  .modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+
+  /* Modal sheet – full-width bottom sheet */
+  .luxury-modal-sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 92dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Modal header */
+  .luxury-modal-header {
+    padding: 14px 16px !important;
+    gap: 10px;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  .luxury-modal-header-text {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .luxury-modal-brand-tag {
+    font-size: 9.5px !important;
+    letter-spacing: 0.1em !important;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .luxury-modal-title {
+    font-size: 15.5px !important;
+    line-height: 1.35 !important;
+    margin-top: 2px;
+  }
+
+  .luxury-modal-close {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    margin-top: 2px;
+  }
+
+  /* Modal body scroll */
+  .luxury-modal-body-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+  }
+
+  /* Checkout two-col → single column */
+  .checkout-two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .checkout-form-side {
+    padding: 16px !important;
+    gap: 14px !important;
+  }
+
+  .checkout-summary-side {
+    padding: 16px !important;
+    border-right: none !important;
+    border-top: 1px solid var(--color-border);
+    gap: 14px !important;
+  }
+
+  /* Track selector inside modal */
+  .modal-track-selector-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+  }
+
+  .modal-track-card-opt {
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+
+  /* Form labels and inputs */
+  .luxury-field-label {
+    font-size: 12.5px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .luxury-text-input {
+    font-size: 14px;
+    padding: 11px 14px;
+  }
+
+  /* WhatsApp submit button */
+  .btn-whatsapp-submit,
+  .btn-whatsapp-send {
+    font-size: 13px;
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 6px;
+  }
+
+  .btn-whatsapp-submit span,
+  .btn-whatsapp-send span {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* Enrollment submitted view */
+  .enrollment-submitted-view {
+    padding: 16px !important;
+    gap: 14px !important;
+  }
+
+  .enrollment-status-banner {
+    padding: 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Status grid → single column on mobile */
+  .enrollment-three-status-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+  }
+
+  /* Submitted actions → stack */
+  .enrollment-submitted-actions {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+  }
+
+  /* Workflow steps */
+  .workflow-step-item {
+    font-size: 12.5px;
+    gap: 8px;
+  }
+
+  /* WhatsApp message preview */
+  .whatsapp-preview-card {
+    padding: 12px 14px;
+  }
+
+  .whatsapp-message-pre {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  /* Kursati button in submitted view */
+  .enrollment-submitted-actions .btn-luxury-primary {
+    font-size: 13px;
+    padding: 0 12px;
+    gap: 6px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    min-height: 48px;
+  }
+
+  /* Steps summary on the right column */
+  .checkout-summary-side > div:first-child > div:first-child {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .luxury-modal-sheet {
+    max-height: 94dvh !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .checkout-form-side,
+  .checkout-summary-side,
+  .enrollment-submitted-view {
+    padding: 14px !important;
+    gap: 12px !important;
+  }
+
+  .luxury-modal-title {
+    font-size: 14.5px !important;
+  }
+
+  .luxury-modal-brand-tag {
+    font-size: 9px !important;
+  }
+}
+
+
+/* ==========================================================================
+   6. BOOKING MODAL FIXES ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .booking-modal-body {
+    padding: 16px !important;
+  }
+
+  .booking-fields-form {
+    gap: var(--spacing-300);
+  }
+
+  .booking-textarea {
+    min-height: 90px;
+    font-size: 14px;
+  }
+
+  .booking-auth-required-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .booking-auth-required-banner .btn-luxury-primary {
+    width: 100%;
+    font-size: 13.5px;
+  }
+
+  .booking-submit-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding-top: var(--spacing-200);
+  }
+
+  .booking-submit-row .btn-luxury-primary {
+    width: 100%;
+    min-width: unset;
+    font-size: 14px;
+    min-height: 46px;
+  }
+
+  .booking-submit-row .caption-3 {
+    text-align: center;
+  }
+
+  .booking-success-box {
+    padding: var(--spacing-400) var(--spacing-200);
+  }
+
+  .booking-success-box .heading-3 {
+    font-size: 20px !important;
+    line-height: 1.4;
+  }
+
+  /* Word counter row – stack */
+  .auth-field-group > div[style] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px;
+  }
+}
+
+
+/* ==========================================================================
+   7. SIDEBAR / MOBILE DRAWER FIXES
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Drawer panel – proper width */
+  .drawer-panel {
+    width: min(320px, 90vw);
+    padding: var(--spacing-300) var(--spacing-200);
+    gap: var(--spacing-200);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .drawer-header {
+    padding-bottom: 14px;
+  }
+
+  /* Drawer nav links */
+  .drawer-nav {
+    gap: 4px;
+    margin-top: 8px;
+    flex: 1;
+  }
+
+  .drawer-link {
+    padding: 10px 14px !important;
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Actions at bottom of drawer */
+  .drawer-actions {
+    padding-top: var(--spacing-200);
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .drawer-btn-outline,
+  .drawer-btn-primary {
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  /* User name label in drawer */
+  .drawer-actions > div > .caption-1 {
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .drawer-panel {
+    width: 92vw;
+    padding: 20px 14px;
+  }
+
+  .drawer-link {
+    font-size: 14px !important;
+    padding: 9px 12px !important;
+  }
+}
+
+
+/* ==========================================================================
+   8. GENERAL SECTION PADDING REDUCTION ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Reduce section padding */
+  .about-section,
+  .course-section,
+  .tagline-reveal-section {
+    padding: var(--spacing-700) 0;
+  }
+
+  .free-video-section {
+    padding: var(--spacing-600) 0;
+  }
+
+  /* Container – tighter horizontal padding */
+  .container {
+    padding-left: var(--spacing-200);
+    padding-right: var(--spacing-200);
+  }
+
+  /* Section eyebrow */
+  .section-eyebrow {
+    font-size: 11px;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: clamp(22px, 5.5vw, 30px) !important;
+    margin-bottom: var(--spacing-200);
+  }
+
+  /* Stories header row – stack */
+  .stories-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-400);
+  }
+
+  .stories-add-opinion-btn {
+    align-self: flex-start;
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  /* Stories cards grid – single column */
+  .stories-editorial-quotes-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-200);
+  }
+
+  .story-quote-only-card {
+    padding: var(--spacing-200) var(--spacing-200);
+  }
+}
+
+@media (max-width: 480px) {
+  .about-section,
+  .course-section {
+    padding: var(--spacing-600) 0;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+
+/* ==========================================================================
+   9. TRUST STRIP & PILLAR CARDS ON MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .trust-strip {
+    padding: var(--spacing-400) 0;
+  }
+
+  .trust-badges-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-100);
+  }
+
+  .trust-badge-card {
+    padding: 14px var(--spacing-200);
+  }
+
+  /* Luxury pillars section */
+  .luxury-pillars-section {
+    padding: var(--spacing-700) 0;
+  }
+
+  /* Pillars grid – 1 col on mobile, 2 col at 640px+ */
+  .luxury-pillars-grid {
+    gap: var(--spacing-200);
+  }
+}
+
+
+/* ==========================================================================
+   10. AUTH PAGE MOBILE FIXES
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* Auth page canvas – single column */
+  .auth-page-canvas {
+    flex-direction: column;
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .auth-card-left {
+    flex: none;
+    width: 100%;
+    padding: 20px 20px;
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  /* Hide the decorative right image column on mobile */
+  .auth-card-right {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   11. HERO SECTION MOBILE POLISH
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .hero-section {
+    padding-top: calc(60px + var(--spacing-300));
+    padding-left: var(--spacing-200);
+    padding-right: var(--spacing-200);
+    padding-bottom: var(--spacing-500);
+    min-height: 100svh;
+  }
+
+  .hero-title {
+    font-size: clamp(22px, 6.5vw, 29px);
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+    max-width: 100%;
+  }
+
+  .hero-brand-monogram {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    margin-bottom: 14px;
+  }
+
+  .hero-simple-highlights {
+    max-width: 100%;
+    gap: 10px 16px;
+  }
+
+  .hero-simple-highlights span {
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(20px, 6vw, 24px);
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100%;
+    font-size: 13px;
+    min-height: 44px;
+  }
+}
+
+
+/* ==========================================================================
+   12. NAVBAR MOBILE POLISH
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .site-header {
+    height: 56px;
+  }
+
+  .header-inner {
+    padding: 0 14px;
+  }
+
+  .nav-brand-emblem-img {
+    height: 26px;
+    max-width: 100px;
+  }
+
+  .btn-mobile-toggle {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* ==========================================================================
+   13. HERO — تقليل الازدحام على شاشات الهاتف
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* إخفاء خط الفاصل الديكوري */
+  .hero-highlights-divider {
+    display: none;
+  }
+
+  /* إخفاء الكلمات الثلاث الصغيرة (كورس مسجّل · بالعربية · من الأساسيات...) */
+  .hero-simple-highlights {
+    display: none;
+  }
+
+  /* تقليص الـ monogram على الموبايل لتوفير مساحة */
+  .hero-brand-monogram {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    opacity: 0.75;
+  }
+
+  /* تحديد عدد أسطر العنوان الفرعي */
+  .hero-subtitle {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-brand-monogram {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   14. ABOUT PAGE — إصلاح زر العودة المتداخل مع الـ Navbar
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* الـ hero section في صفحة "عن حلا" يحتاج padding أكبر ليبدأ تحت الـ navbar الثابت */
+  .about-page-hero-section {
+    padding-top: calc(56px + 32px) !important; /* 56px navbar + 32px تباعد */
+  }
+
+  /* الـ breadcrumb (زر العودة) يحتاج margin علوي بسيط */
+  .about-page-breadcrumb {
+    margin-top: 4px;
+    margin-bottom: var(--spacing-300);
+  }
+
+  /* إخفاء الكلمات الثلاث في هيرو صفحة عن حلا لو موجودة */
+  .about-page-hero-section .hero-simple-highlights {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   15. CHECKOUT / BOOKING AUTH GUARD — شاشة "يتطلب تسجيل الدخول"
+   ========================================================================== */
+
+.checkout-auth-required-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 40px 24px 48px;
+}
+
+.checkout-auth-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-primary-subtle, #fdf0ee);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkout-auth-title {
+  color: var(--color-noir);
+  margin-bottom: 0;
+}
+
+.checkout-auth-desc {
+  color: var(--color-text-muted);
+  max-width: 340px;
+  line-height: 1.65;
+}
+
+.checkout-auth-login-btn {
+  margin-top: 8px;
+  min-width: 220px;
+}
+
+@media (max-width: 767px) {
+  .checkout-auth-required-wrap {
+    padding: 32px 16px 40px;
+  }
+
+  .checkout-auth-login-btn {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* ==========================================================================
+   16. COURSE SECTION — CTA "تقديم استمارة الالتحاق الرسمية"
+   ========================================================================== */
+
+.course-application-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: var(--spacing-500, 40px);
+  padding: var(--spacing-500, 40px) var(--spacing-400, 32px);
+  border-top: 1px solid var(--color-border, #e8e0de);
+  text-align: center;
+}
+
+.course-application-cta__hint {
+  color: var(--color-text-subtle);
+  margin: 0;
+}
+
+.course-application-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.course-application-cta__note {
+  color: var(--color-text-subtle);
+  opacity: 0.75;
+}
+
+@media (max-width: 767px) {
+  .course-application-cta {
+    margin-top: var(--spacing-400, 32px);
+    padding: var(--spacing-400, 32px) var(--spacing-300, 24px);
+    gap: 10px;
+  }
+
+  .course-application-cta__btn {
+    width: 100%;
+    min-width: unset;
+    justify-content: center;
+    font-size: 14px;
+    min-height: 48px;
+  }
+}
+
+/* ==========================================================================
+   17. CHECKOUT MODAL — أزرار Submit + WhatsApp المزدوجة
+   ========================================================================== */
+
+.checkout-actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.checkout-submit-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* زر WhatsApp المباشر */
+.btn-whatsapp-direct {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  background: #25D366;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: background 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp-direct:hover {
+  background: #1ebe59;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.checkout-actions-hint {
+  color: var(--color-text-subtle);
+  text-align: center;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+@media (max-width: 767px) {
+  .checkout-actions-col {
+    gap: 8px;
+  }
+
+  .btn-whatsapp-direct {
+    font-size: 13px;
+    min-height: 44px;
+  }
+}

@@ -25,6 +25,7 @@ import Toast from './components/Toast';
 
 import './styles/theme.css';
 import './styles/components.css';
+import './styles/mobile-fixes.css';
 
 function AppContent() {
   const { currentView } = useApp();

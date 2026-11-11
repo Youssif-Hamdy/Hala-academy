@@ -13,7 +13,8 @@ export default function CheckoutModal() {
     currentUser,
     createEnrollmentRequest,
     openLmsModal,
-    showToast
+    showToast,
+    openAuthModal
   } = useApp();
 
   const [fullName, setFullName] = useState('');
@@ -42,6 +43,46 @@ export default function CheckoutModal() {
   }, [closeEnrollModal]);
 
   if (!isEnrollModalOpen) return null;
+
+  /* ── Guard: يتطلب تسجيل الدخول ── */
+  if (!currentUser) {
+    return (
+      <div className="modal-overlay" onClick={handleClose} role="dialog" aria-modal="true">
+        <div className="luxury-modal-sheet" onClick={(e) => e.stopPropagation()}>
+          {/* Header */}
+          <div className="luxury-modal-header">
+            <div className="luxury-modal-header-text">
+              <div dir="ltr" className="luxury-modal-brand-tag">HALLA ACADEMY · ENROLLMENT</div>
+              <h3 className="luxury-modal-title">طلب الاشتراك وتفعيل الكورس</h3>
+            </div>
+            <button onClick={handleClose} className="luxury-modal-close" aria-label="إغلاق">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          {/* Body: رسالة تسجيل الدخول */}
+          <div className="luxury-modal-body-scroll">
+            <div className="checkout-auth-required-wrap">
+              <div className="checkout-auth-icon" aria-hidden="true">
+                <ShieldAlert size={40} color="var(--color-primary)" />
+              </div>
+              <h4 className="title-2 checkout-auth-title">يتطلب الاشتراك تسجيل الدخول أولاً</h4>
+              <p className="body-3 checkout-auth-desc">
+                يرجى تسجيل الدخول أو إنشاء حساب جديد للمتابعة وتسجيل طلب اشتراككِ في الكورس.
+              </p>
+              <button
+                onClick={() => { handleClose(); openAuthModal('login'); }}
+                className="btn-luxury-primary button-md checkout-auth-login-btn"
+              >
+                تسجيل الدخول / إنشاء حساب
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const currentTrack =
     ACADEMY_DATA.tracks.find((t) => t.id === selectedTrack) || ACADEMY_DATA.tracks[1];
@@ -358,24 +399,42 @@ export default function CheckoutModal() {
                 </div>
 
                 {/* Submit & Open WhatsApp Button */}
-                <div>
+                <div className="checkout-actions-col">
+                  {/* زر Submit الرئيسي — يسجّل الطلب ويفتح WhatsApp تلقائياً */}
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-whatsapp-submit"
+                    className="btn-luxury-primary button-md checkout-submit-btn"
                   >
                     {isSubmitting ? (
-                      <span>جاري تسجيل الطلب وتجهيز WhatsApp...</span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                        <span className="auth-spinner" aria-hidden="true"></span>
+                        <span>جاري تسجيل الطلب...</span>
+                      </span>
                     ) : (
                       <>
-                        <span>إرسال الطلب والمتابعة عبر WhatsApp</span>
-                        <ExternalLink size={17} />
+                        <span>تأكيد وإرسال طلب الاشتراك</span>
+                        <ExternalLink size={16} />
                       </>
                     )}
                   </button>
 
-                  <div style={{ textAlign: 'center', fontSize: '11.5px', color: '#7A6568', marginTop: '8px' }}>
-                    يمكنكِ متابعة حالة الطلب وتفعيل الكورس من «حسابي / كورساتي» في أي وقت
+                  {/* زر WhatsApp المباشر — بدون تسجيل، للتواصل الفوري */}
+                  <a
+                    href={`https://wa.me/218946122679`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-whatsapp-direct button-md"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.564 4.14 1.546 5.877L0 24l6.302-1.519A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.368l-.36-.213-3.733.9.939-3.629-.234-.373A9.818 9.818 0 1 1 12 21.818z"/>
+                    </svg>
+                    <span>تواصلي معنا عبر WhatsApp</span>
+                  </a>
+
+                  <div className="caption-4 checkout-actions-hint">
+                    بعد تأكيد الطلب، ستنفتح رسالة WhatsApp مجهزة تلقائياً لإتمام الدفع مع الإدارة
                   </div>
                 </div>
               </div>

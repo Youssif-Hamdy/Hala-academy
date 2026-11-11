@@ -261,9 +261,9 @@ export function AppProvider({ children }) {
 
   const handleApplicationSubmit = async (name, currentChallenges, courseGoal) => {
     const res = await applicationsApi.submit(name, currentChallenges, courseGoal);
-    showToast('تم إرسال طلب الالتحاق بنجاح! سيتم مراجعته والتواصل معكِ.');
+    showToast('تم إرسال استمارة الالتحاق بنجاح! سيتم مراجعتها والتواصل معكِ قريباً.');
     setIsBookingModalOpen(false);
-    return res.application;
+    return res.application || res;
   };
 
   const toggleLessonCompleted = (lessonId) => {
