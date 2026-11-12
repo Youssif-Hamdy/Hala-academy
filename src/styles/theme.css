@@ -108,6 +108,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 600;
   color: var(--color-noir);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Arabic text: text-wrap:balance can chop Arabic mid-phrase on small viewports */
+@media (max-width: 767px) {
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: unset;
+    overflow-wrap: break-word;
+  }
 }
 
 p, li, span {

@@ -2,7 +2,8 @@ import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import LuxuryPillarsSection from './components/LuxuryPillarsSection';
+import CertificationsStrip from './components/CertificationsStrip';
+import MakeupShowcase from './components/MakeupShowcase';
 import AboutHala from './components/AboutHala';
 import AboutHalaPage from './components/AboutHalaPage';
 import TaglineReveal from './components/TaglineReveal';
@@ -53,11 +54,12 @@ function AppContent() {
         ) : (
           <>
             <Hero />
-            <LuxuryPillarsSection />
+            <CertificationsStrip />
             <AboutHala />
             <TaglineReveal />
             <CourseSection />
             <FreeVideoSection />
+            <MakeupShowcase />
             <StoriesReviews />
             <CtaBanner />
             <FaqSection />

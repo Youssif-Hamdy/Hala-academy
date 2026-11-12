@@ -1720,3 +1720,51 @@
     border-radius: 16px 16px 0 0;
   }
 }
+
+
+/* ==========================================================================
+   24. ARABIC HEADINGS — Mobile Text Fix
+   ========================================================================== */
+
+/* Fix Arabic text rendering on mobile: prevent broken/chopped words */
+@media (max-width: 767px) {
+  h1, h2, h3, h4, h5, h6,
+  .heading-1, .heading-2, .heading-3, .heading-4, .heading-5, .heading-6,
+  .section-title,
+  .hero-title,
+  .track-heading,
+  .luxury-pillar-heading,
+  .join-cta-heading,
+  .tagline-heading,
+  .story-highlight-heading,
+  .about-milestones-header h2,
+  .about-page-cta-box h2,
+  .cert-strip-title,
+  .press-strip-title,
+  .trust-heading-block {
+    /* Arabic doesn't hyphenate — disable balance & pretty which can chop mid-word */
+    text-wrap: unset;
+    /* Allow long Arabic words / phrases to wrap cleanly */
+    word-break: normal;
+    overflow-wrap: break-word;
+    /* Smooth Arabic word spacing */
+    word-spacing: 0.04em;
+    /* Ensure RTL direction is respected */
+    unicode-bidi: plaintext;
+    /* Slightly more breathing room between lines */
+    line-height: 1.6;
+  }
+
+  /* Extra small screens — a touch more line-height */
+  @media (max-width: 480px) {
+    h1, h2, h3, h4, h5, h6,
+    .heading-1, .heading-2, .heading-3, .heading-4, .heading-5, .heading-6,
+    .section-title,
+    .hero-title,
+    .track-heading {
+      line-height: 1.65;
+      /* Prevent orphaned single Arabic characters at end of line */
+      text-align-last: auto;
+    }
+  }
+}

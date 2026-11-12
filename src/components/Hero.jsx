@@ -36,12 +36,16 @@ export default function Hero() {
           loop
           playsInline
           poster="/assets/images/hero-reel-poster.jpg"
-          className="hero-video-element"
+          className="hero-video-element hero-desktop-media"
         >
           <source src="/assets/videos/hero-section.MOV" type="video/mp4" />
           <source src="/assets/videos/hero-section.MOV" type="video/quicktime" />
         </video>
-        {/* Soft veil overlay specifically over the video so it is visible but elegantly tinted */}
+        <img
+          src="/assets/images/m-hero.jpeg"
+          alt=""
+          className="hero-mobile-media"
+        />
         <div className="hero-video-veil"></div>
       </div>
 
