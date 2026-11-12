@@ -12,6 +12,7 @@ export default function Navbar() {
     openAdminModal,
     currentView,
     navigateToAbout,
+    navigateToFaq,
     navigateToHome
   } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -145,13 +146,17 @@ export default function Navbar() {
               >
                 لقطات التدريب
               </a>
-              <a
-                href="#faq"
-                onClick={(e) => handleHomeSectionNav(e, 'faq')}
-                className={`nav-link caption-1 ${currentView === 'home' && activeSection === 'faq' ? 'active' : ''}`}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigateToFaq();
+                }}
+                className={`nav-link caption-1 ${currentView === 'faq' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
                 الأسئلة الشائعة
-              </a>
+              </button>
             </nav>
 
             <div className="header-actions">
@@ -312,13 +317,17 @@ export default function Navbar() {
                 لوحة طلبات الاشتراك (الأدمن)
               </button>
             )}
-            <a
-              href="#faq"
-              onClick={(e) => handleHomeSectionNav(e, 'faq')}
-              className={`drawer-link title-3 ${currentView === 'home' && activeSection === 'faq' ? 'active' : ''}`}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateToFaq();
+              }}
+              className={`drawer-link title-3 ${currentView === 'faq' ? 'active' : ''}`}
+              style={{ textAlign: 'right', width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
             >
               الأسئلة الشائعة
-            </a>
+            </button>
           </nav>
 
           <div className="drawer-actions">

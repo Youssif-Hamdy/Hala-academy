@@ -1,71 +1,54 @@
 import React, { useState, useEffect, useRef } from 'react';
+import promoImgUrl from '../assets/promo-ad.png';
 
-const PROMO_IMAGES = [
-  {
-    src: '/assets/images/prand/Playful Arabic Makeup Quiz Ad.png',
-    alt: 'إعلان أكاديمية حلا سامي'
-  },
-  {
-    src: "/assets/images/prand/You're Still Just Getting Started.png",
-    alt: 'رسالة من أكاديمية حلا سامي'
-  }
-];
+const PROMO_IMAGE = {
+  src: promoImgUrl,
+  alt: 'إعلان أكاديمية حلا سامي'
+};
 
-const FIRST_SHOW_MS = 10000;         // يظهر أول مرة بعد 10 ثواني
-const INTERVAL_MS   = 2 * 60 * 1000; // كل دقيقتين
+const INTERVAL_MS = 30 * 1000; // يظهر كل 30 ثانية لجميع الزوار
 
-/**
- * PromoPopup — إعلان دوري يظهر في منتصف الشاشة كل دقيقتين
- * يتبدّل بين الصورتين بالتسلسل، ويظهر فقط بعد تحميل الصورة
- */
 export default function PromoPopup() {
-  const [visible, setVisible]       = useState(false);
-  const [animState, setAnimState]   = useState('');
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [imgLoaded, setImgLoaded]   = useState(false);
-  const idxRef   = useRef(0);
-  const imgCache = useRef({});
+  const [visible, setVisible] = useState(false);
+  const [animState, setAnimState] = useState('');
+  const [imgLoaded, setImgLoaded] = useState(true);
+  const visibleRef = useRef(false);
 
-  /* ── Preload كل الصور عند بداية التشغيل ── */
+  // تحميل مسبق للصورة في الخلفية
   useEffect(() => {
-    PROMO_IMAGES.forEach(({ src }) => {
-      if (imgCache.current[src]) return;
-      const img = new window.Image();
-      img.src = src;
-      img.onload = () => { imgCache.current[src] = true; };
-    });
+    const img = new window.Image();
+    img.src = PROMO_IMAGE.src;
   }, []);
 
   const showPromo = () => {
-    const idx = idxRef.current % PROMO_IMAGES.length;
-    idxRef.current += 1;
-    setCurrentIdx(idx);
-    setImgLoaded(!!imgCache.current[PROMO_IMAGES[idx].src]);
+    if (visibleRef.current) return; // لا نكرر إذا كان مفتوحاً بالفعل
+    visibleRef.current = true;
     setAnimState('entering');
     setVisible(true);
-    setTimeout(() => setAnimState(''), 450);
+    window.setTimeout(() => setAnimState(''), 450);
   };
 
   const dismiss = () => {
     setAnimState('leaving');
-    setTimeout(() => {
+    window.setTimeout(() => {
+      visibleRef.current = false;
       setVisible(false);
       setAnimState('');
-    }, 380);
+    }, 350);
   };
 
   useEffect(() => {
-    const firstTimer = setTimeout(showPromo, FIRST_SHOW_MS);
-    const interval   = setInterval(showPromo, INTERVAL_MS);
+    // يظهر بعد 30 ثانية، ثم يتكرر كل 30 ثانية
+    const timer = window.setTimeout(showPromo, INTERVAL_MS);
+    const interval = window.setInterval(showPromo, INTERVAL_MS);
+
     return () => {
-      clearTimeout(firstTimer);
-      clearInterval(interval);
+      window.clearTimeout(timer);
+      window.clearInterval(interval);
     };
   }, []);
 
   if (!visible) return null;
-
-  const img = PROMO_IMAGES[currentIdx];
 
   return (
     <div
@@ -79,39 +62,38 @@ export default function PromoPopup() {
         className={`promo-card${animState ? ` promo-card-${animState}` : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* زر الإغلاق */}
-        <button className="promo-close-btn" onClick={dismiss} aria-label="إغلاق">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <button
+          type="button"
+          className="promo-close-btn"
+          onClick={dismiss}
+          aria-label="إغلاق الإعلان"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
 
-        {/* Skeleton أثناء التحميل */}
         {!imgLoaded && (
           <div className="promo-img-skeleton" aria-hidden="true" />
         )}
 
-        {/* الصورة — مخفية حتى تتحمّل */}
         <img
-          src={img.src}
-          alt={img.alt}
+          src={PROMO_IMAGE.src}
+          alt={PROMO_IMAGE.alt}
           className="promo-img"
           draggable={false}
           loading="eager"
-          style={{ display: imgLoaded ? 'block' : 'none' }}
           onLoad={() => setImgLoaded(true)}
-          onError={(e) => {
-            console.warn('[PromoPopup] فشل تحميل الصورة:', img.src);
-            dismiss(); // أغلق الـ popup لو الصورة فشلت
-          }}
         />
-
-        {/* مؤشر الصورة الحالية */}
-        <div className="promo-dots-row" aria-hidden="true">
-          {PROMO_IMAGES.map((_, i) => (
-            <span key={i} className={`promo-dot${i === currentIdx ? ' active' : ''}`} />
-          ))}
-        </div>
       </div>
     </div>
   );

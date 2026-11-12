@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 export default function Footer() {
-  const { navigateToHome, navigateToAbout } = useApp();
+  const { navigateToHome, navigateToAbout, navigateToFaq } = useApp();
 
   const handleSectionLink = (e, sectionId) => {
     e.preventDefault();
@@ -47,9 +47,14 @@ export default function Footer() {
             <a href="#free" onClick={(e) => handleSectionLink(e, 'free')} className="luxury-footer-link">
               لقطات التدريب
             </a>
-            <a href="#faq" onClick={(e) => handleSectionLink(e, 'faq')} className="luxury-footer-link">
+            <button
+              type="button"
+              onClick={() => navigateToFaq()}
+              className="luxury-footer-link"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}
+            >
               الأسئلة الشائعة
-            </a>
+            </button>
           </nav>
         </div>
 

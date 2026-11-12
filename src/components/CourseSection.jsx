@@ -24,39 +24,8 @@ export default function CourseSection() {
         </div>
 
         {/* Tracks Grid (Nested Radius B3 & Mathematical Spacing B2) */}
-        <div className="track-cards-grid">
-          {/* Card 1: For You */}
-          <div className="track-card-for-you">
-            <div dir="ltr" className="track-tag-latin" style={{ color: 'var(--color-primary)' }}>
-              FOR YOU · مسار الاستخدام الشخصي
-            </div>
-
-            <h3 className="track-heading heading-4" style={{ color: 'var(--color-noir)' }}>
-              أتعلّم لنفسي وإبراز جمالي
-            </h3>
-
-            <p className="track-desc body-3" style={{ color: 'var(--color-text-muted)' }}>
-              مكياج يومي ولمسات متقنة تناسب ملامحك بدقة، من تحضير البشرة والعناية بها حتى التثبيت الاحترافي، لتعتمدي على نفسك بثقة في كل مناسبة.
-            </p>
-
-            <div className="track-price-row">
-              <span className="caption-1" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
-                6 ساعات تدريبية مكثفة · وصول غير محدود مدى الحياة
-              </span>
-            </div>
-
-            <button
-              onClick={() => openEnrollModal('self')}
-              className="track-card-btn track-card-btn--outline"
-            >
-              <span>اختاري مسار أتعلّم لنفسي</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M11 6l-6 6 6 6"></path>
-              </svg>
-            </button>
-          </div>
-
-          {/* Card 2: Professional (Haute Couture Featured) */}
+        <div className="track-cards-grid track-cards-grid--single">
+          {/* Card: Professional (Haute Couture Featured) */}
           <div className="track-card-pro">
             <div dir="ltr" className="track-tag-latin" style={{ color: 'var(--color-accent-soft)' }}>
               PROFESSIONAL · المسار الاحترافي الشامل

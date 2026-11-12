@@ -6,7 +6,7 @@ import CertificationsStrip from './components/CertificationsStrip';
 import MakeupShowcase from './components/MakeupShowcase';
 import AboutHala from './components/AboutHala';
 import AboutHalaPage from './components/AboutHalaPage';
-import TaglineReveal from './components/TaglineReveal';
+import FaqPage from './components/FaqPage';
 import CourseSection from './components/CourseSection';
 import FreeVideoSection from './components/FreeVideoSection';
 import StoriesReviews from './components/StoriesReviews';
@@ -51,18 +51,18 @@ function AppContent() {
       <main id="main-content">
         {currentView === 'about' ? (
           <AboutHalaPage />
+        ) : currentView === 'faq' ? (
+          <FaqPage />
         ) : (
           <>
             <Hero />
             <CertificationsStrip />
             <AboutHala />
-            <TaglineReveal />
             <CourseSection />
             <FreeVideoSection />
             <MakeupShowcase />
             <StoriesReviews />
             <CtaBanner />
-            <FaqSection />
           </>
         )}
       </main>

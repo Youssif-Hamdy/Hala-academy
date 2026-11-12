@@ -82,6 +82,8 @@ export function AppProvider({ children }) {
         setCurrentView('auth');
       } else if (hash === '#about-hala') {
         setCurrentView('about');
+      } else if (hash === '#faq-page' || hash === '#faq') {
+        setCurrentView('faq');
       } else if (
         hash === '#top' ||
         hash === '' ||
@@ -89,8 +91,7 @@ export function AppProvider({ children }) {
         hash.startsWith('#course') ||
         hash.startsWith('#certifications') ||
         hash.startsWith('#free') ||
-        hash.startsWith('#stories') ||
-        hash.startsWith('#faq')
+        hash.startsWith('#stories')
       ) {
         setCurrentView('home');
       }
@@ -113,6 +114,14 @@ export function AppProvider({ children }) {
     setCurrentView('about');
     if (typeof window !== 'undefined') {
       window.location.hash = '#about-hala';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToFaq = () => {
+    setCurrentView('faq');
+    if (typeof window !== 'undefined') {
+      window.location.hash = '#faq-page';
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -166,7 +175,7 @@ export function AppProvider({ children }) {
     setToast(message);
     setTimeout(() => {
       setToast(null);
-    }, 4000);
+    }, 6000);
   };
 
   const openEnrollModal = (trackId) => {
@@ -349,6 +358,7 @@ export function AppProvider({ children }) {
         currentView,
         navigateToAuth,
         navigateToAbout,
+        navigateToFaq,
         navigateToHome,
         currentUser,
         login: handleLogin,

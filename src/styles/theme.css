@@ -116,7 +116,15 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 767px) {
   h1, h2, h3, h4, h5, h6 {
     text-wrap: unset;
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: none;
+  }
+
+  p, li, span {
+    text-wrap: unset;
+    overflow-wrap: normal;
+    word-break: keep-all;
   }
 }
 

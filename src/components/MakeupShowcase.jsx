@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
+const LOOK_DURATION_MS = 5000;
+
 const WORK_LOOKS = [
   { id: 'look-1', src: '/assets/images/exaple/1.png', title: 'إطلالة ميكب 1' },
   { id: 'look-2', src: '/assets/images/exaple/2.png', title: 'إطلالة ميكب 2' },
@@ -53,9 +55,11 @@ export default function MakeupShowcase() {
 
   useEffect(() => {
     if (paused) return undefined;
-    const timer = window.setInterval(goNext, 3800);
-    return () => window.clearInterval(timer);
-  }, [paused]);
+    const currentSlide = SLIDES[activeIndex] || WORK_LOOKS[0];
+    const duration = currentSlide.duration || LOOK_DURATION_MS;
+    const timer = window.setTimeout(goNext, duration);
+    return () => window.clearTimeout(timer);
+  }, [paused, activeIndex]);
 
   useEffect(() => {
     if (activeIndex !== SLIDE_COUNT) return undefined;
