@@ -157,7 +157,7 @@ export default function Navbar() {
                 className={`nav-link caption-1 ${currentView === 'consultations' ? 'active' : ''}`}
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                الاستشارات المدفوعة
+                استشارات
               </button>
               <button
                 type="button"
@@ -168,7 +168,7 @@ export default function Navbar() {
                 className={`nav-link caption-1 ${currentView === 'reviews' ? 'active' : ''}`}
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                آراء وتجارب
+                آراء
               </button>
               <button
                 type="button"

@@ -171,17 +171,16 @@
 /* --- Desktop Version (>= 992px): Luxury Floating Pill with Non-Glowy Gold Border --- */
 @media (min-width: 992px) {
   .site-header {
-    top: var(--spacing-200);
+    top: 12px;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    width: min(1260px, calc(100% - 48px));
+    width: min(1380px, calc(100% - 32px));
     height: auto;
-    min-height: 62px;
+    min-height: 52px;
     background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    /* Elegant, crisp satin gold hairline border (No glow) */
     border: 1px solid rgba(197, 160, 89, 0.6);
     border-radius: var(--radius-full);
     box-shadow: 0 6px 20px rgba(43, 35, 37, 0.05);
@@ -198,8 +197,9 @@
     flex-direction: row;
     direction: rtl;
     justify-content: space-between;
-    padding: 10px 24px;
-    gap: var(--spacing-200);
+    align-items: center;
+    padding: 6px 18px;
+    gap: 12px;
   }
 
   .header-start {
@@ -211,32 +211,36 @@
   }
 
   .header-end {
-    display: contents;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 12px;
   }
 
-  /* Desktop Logo: Refined and slightly smaller as requested (36px) */
   .nav-brand-emblem-img {
-    height: 36px;
-    max-width: 130px;
+    height: 30px;
+    max-width: 110px;
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 2px;
   }
 
   .nav-link {
     color: var(--color-text-muted);
-    min-height: 40px;
-    padding: 0 14px;
+    min-height: 34px;
+    padding: 0 10px;
     border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     position: relative;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 13px;
+    white-space: nowrap;
     transition: all var(--duration-fast) var(--motion-base);
     text-decoration: none;
   }
@@ -245,7 +249,6 @@
     color: var(--color-primary);
   }
 
-  /* Option A: Slender Satin Gold Bottom Accent Line */
   .nav-link.active {
     color: var(--color-primary);
     font-weight: 600;
@@ -256,11 +259,11 @@
   }
 
   .nav-link.active::after {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: 5px;
-    left: 14px;
-    right: 14px;
+    bottom: 3px;
+    left: 8px;
+    right: 8px;
     height: 2px;
     border-radius: var(--radius-full);
     background: #C5A059;
@@ -268,7 +271,16 @@
 
   .header-actions {
     display: flex;
-    gap: var(--spacing-100);
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .header-actions .btn-luxury-text {
+    font-size: 12.5px;
+    padding: 0 10px;
+    min-height: 34px;
+    white-space: nowrap;
   }
 
   .btn-mobile-toggle {

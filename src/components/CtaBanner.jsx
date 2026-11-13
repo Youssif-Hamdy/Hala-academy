@@ -8,10 +8,6 @@ export default function CtaBanner() {
     <section id="join" className="minimal-luxury-cta-section" aria-label="الاشتراك في الأكاديمية">
       <div className="container">
         <div className="minimal-cta-card">
-          <span dir="ltr" className="minimal-cta-eyebrow">
-            HALLA ACADEMY · ENROLLMENT
-          </span>
-
           <h2 className="minimal-cta-title heading-2">
             ابدئي رحلتكِ الاحترافية مع حلا سامي
           </h2>
