@@ -84,14 +84,17 @@ export function AppProvider({ children }) {
         setCurrentView('about');
       } else if (hash === '#faq-page' || hash === '#faq') {
         setCurrentView('faq');
+      } else if (hash === '#reviews' || hash === '#stories-page' || hash === '#testimonials') {
+        setCurrentView('reviews');
+      } else if (hash === '#consultations' || hash === '#consultation') {
+        setCurrentView('consultations');
       } else if (
         hash === '#top' ||
         hash === '' ||
         hash.startsWith('#about') ||
         hash.startsWith('#course') ||
         hash.startsWith('#certifications') ||
-        hash.startsWith('#free') ||
-        hash.startsWith('#stories')
+        hash.startsWith('#free')
       ) {
         setCurrentView('home');
       }
@@ -122,6 +125,22 @@ export function AppProvider({ children }) {
     setCurrentView('faq');
     if (typeof window !== 'undefined') {
       window.location.hash = '#faq-page';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToReviews = () => {
+    setCurrentView('reviews');
+    if (typeof window !== 'undefined') {
+      window.location.hash = '#reviews';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToConsultations = () => {
+    setCurrentView('consultations');
+    if (typeof window !== 'undefined') {
+      window.location.hash = '#consultations';
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -359,6 +378,8 @@ export function AppProvider({ children }) {
         navigateToAuth,
         navigateToAbout,
         navigateToFaq,
+        navigateToReviews,
+        navigateToConsultations,
         navigateToHome,
         currentUser,
         login: handleLogin,

@@ -564,3 +564,24 @@ export const bookingsApi = {
       method: 'GET'
     })
 };
+
+export const consultationsApi = {
+  /**
+   * طلب استشارة جديدة (للمستخدم المسجل) — POST /api/consultations
+   * Payload: { name, phone, email, duration, notes }
+   * - duration: 30 | 60 | 120
+   */
+  create: ({ name, phone, email, duration, notes }) =>
+    apiFetch('/api/consultations', {
+      method: 'POST',
+      body: JSON.stringify({ name, phone, email, duration: Number(duration), notes })
+    }),
+
+  /**
+   * استعراض استشارات المستخدم المسجل — GET /api/consultations/my
+   */
+  getMyConsultations: () =>
+    apiFetch('/api/consultations/my', {
+      method: 'GET'
+    })
+};

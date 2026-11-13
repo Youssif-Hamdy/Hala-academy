@@ -7,6 +7,8 @@ import MakeupShowcase from './components/MakeupShowcase';
 import AboutHala from './components/AboutHala';
 import AboutHalaPage from './components/AboutHalaPage';
 import FaqPage from './components/FaqPage';
+import ReviewsPage from './components/ReviewsPage';
+import ConsultationsPage from './components/ConsultationsPage';
 import CourseSection from './components/CourseSection';
 import FreeVideoSection from './components/FreeVideoSection';
 import StoriesReviews from './components/StoriesReviews';
@@ -53,6 +55,10 @@ function AppContent() {
           <AboutHalaPage />
         ) : currentView === 'faq' ? (
           <FaqPage />
+        ) : currentView === 'reviews' ? (
+          <ReviewsPage />
+        ) : currentView === 'consultations' ? (
+          <ConsultationsPage />
         ) : (
           <>
             <Hero />
@@ -61,7 +67,6 @@ function AppContent() {
             <CourseSection />
             <FreeVideoSection />
             <MakeupShowcase />
-            <StoriesReviews />
             <CtaBanner />
           </>
         )}

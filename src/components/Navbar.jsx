@@ -13,6 +13,8 @@ export default function Navbar() {
     currentView,
     navigateToAbout,
     navigateToFaq,
+    navigateToReviews,
+    navigateToConsultations,
     navigateToHome
   } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,7 +27,7 @@ export default function Navbar() {
 
       if (currentView !== 'home') return;
 
-      const sections = ['top', 'about', 'course', 'free', 'stories', 'faq'];
+      const sections = ['top', 'about', 'course', 'free'];
       const scrollPosition = window.scrollY + 140;
 
       for (const sectionId of sections) {
@@ -146,6 +148,28 @@ export default function Navbar() {
               >
                 لقطات التدريب
               </a>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigateToConsultations();
+                }}
+                className={`nav-link caption-1 ${currentView === 'consultations' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              >
+                الاستشارات المدفوعة
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigateToReviews();
+                }}
+                className={`nav-link caption-1 ${currentView === 'reviews' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              >
+                آراء وتجارب
+              </button>
               <button
                 type="button"
                 onClick={() => {
@@ -317,6 +341,28 @@ export default function Navbar() {
                 لوحة طلبات الاشتراك (الأدمن)
               </button>
             )}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateToConsultations();
+              }}
+              className={`drawer-link title-3 ${currentView === 'consultations' ? 'active' : ''}`}
+              style={{ textAlign: 'right', width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              الاستشارات المدفوعة
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigateToReviews();
+              }}
+              className={`drawer-link title-3 ${currentView === 'reviews' ? 'active' : ''}`}
+              style={{ textAlign: 'right', width: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              آراء وإشادات المتدربات
+            </button>
             <button
               type="button"
               onClick={() => {

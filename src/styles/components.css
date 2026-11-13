@@ -1360,6 +1360,97 @@
   background: #FFFFFF;
 }
 
+/* الأزرار الثلاثة داخل كارد الكورس */
+.course-action-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (min-width: 640px) {
+  .course-action-buttons-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .course-action-btn--what-we-offer {
+    grid-column: 1 / -1;
+  }
+}
+
+.course-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--motion-base);
+  text-align: center;
+  text-decoration: none;
+  border: none;
+}
+
+.course-action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.course-action-btn--what-we-offer {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.course-action-btn--what-we-offer:hover {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: #FFFFFF;
+}
+
+.course-action-btn--pro {
+  background: #FFFFFF;
+  color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.course-action-btn--pro:hover {
+  background: #FAF0EC;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.course-action-btn--personal {
+  background: transparent;
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.course-action-btn--personal:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #FFFFFF;
+}
+
+.course-offers-expanded-box {
+  animation: fadeInDown 0.35s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .course-intro-box {
   max-width: 680px;
   margin-bottom: var(--spacing-600);
@@ -5260,5 +5351,409 @@
   .makeup-showcase-dot,
   .makeup-showcase-nav {
     transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   25. CONSULTATIONS PAGE (الاستشارات المدفوعة)
+   ========================================================================== */
+
+.consultations-page-wrapper {
+  min-height: 85vh;
+  padding-top: 90px;
+  padding-bottom: 70px;
+  background: #FFFFFF;
+}
+
+.consultations-page-container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.consultations-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+
+.consultations-main-title {
+  color: var(--color-noir);
+  margin: 8px 0 16px;
+}
+
+.consultations-hero-desc {
+  color: var(--color-text-muted);
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+
+.consultations-sub-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--color-primary-subtle, #FAF0EC);
+  color: var(--color-primary, #7A1C2E);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(197, 137, 154, 0.35);
+  line-height: 1.5;
+}
+
+/* ── Packages Grid ── */
+.consultation-packages-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .consultation-packages-grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+  }
+}
+
+.consultation-package-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-border, #E8E0DE);
+  border-radius: 20px;
+  padding: 32px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all var(--duration-fast, 0.25s) var(--motion-base, ease);
+  box-shadow: 0 4px 16px rgba(43, 35, 37, 0.04);
+}
+
+.consultation-package-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary, #7A1C2E);
+  box-shadow: 0 12px 32px rgba(122, 28, 46, 0.12);
+}
+
+.consultation-package-card.is-selected {
+  border-color: var(--color-primary, #7A1C2E);
+  box-shadow: 0 0 0 2px var(--color-primary, #7A1C2E), 0 16px 36px rgba(122, 28, 46, 0.14);
+  background: #FFFDFC;
+}
+
+.consultation-package-card.is-popular {
+  border-color: rgba(197, 160, 89, 0.7);
+}
+
+.consultation-package-card.is-popular.is-selected {
+  border-color: var(--color-primary, #7A1C2E);
+  box-shadow: 0 0 0 2px var(--color-primary, #7A1C2E), 0 16px 40px rgba(122, 28, 46, 0.16);
+}
+
+.package-badge-tag {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--color-primary, #7A1C2E);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 10px rgba(122, 28, 46, 0.25);
+}
+
+.consultation-package-card.is-popular .package-badge-tag {
+  background: linear-gradient(135deg, #C5A059 0%, #A07B37 100%);
+  color: #FFFFFF;
+}
+
+.package-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.package-duration-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary-subtle, #FAF0EC);
+  color: var(--color-primary, #7A1C2E);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+}
+
+.package-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  color: var(--color-primary, #7A1C2E);
+}
+
+.package-price-wrap .price-currency {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.package-price-wrap .price-amount {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: var(--font-sans);
+}
+
+.package-price-wrap .price-period {
+  font-size: 13px;
+  color: var(--color-text-subtle);
+  margin-right: 4px;
+}
+
+.package-title {
+  color: var(--color-noir);
+  margin: 0 0 6px;
+}
+
+.package-subtitle {
+  color: var(--color-text-muted);
+  margin: 0 0 16px;
+  min-height: 36px;
+}
+
+.package-divider {
+  height: 1px;
+  background: var(--color-border, #E8E0DE);
+  margin-bottom: 18px;
+}
+
+.package-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.package-features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+
+.feature-check-icon {
+  color: var(--color-primary, #7A1C2E);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.package-select-action {
+  margin-top: auto;
+}
+
+.package-select-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--color-primary, #7A1C2E);
+  background: #FFFFFF;
+  color: var(--color-primary, #7A1C2E);
+  transition: all var(--duration-fast) var(--motion-base);
+  text-align: center;
+}
+
+.package-select-btn:hover,
+.package-select-btn.is-selected {
+  background: var(--color-primary, #7A1C2E);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(122, 28, 46, 0.25);
+}
+
+/* ── Booking Form Card ── */
+.consultation-booking-form-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.booking-form-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border, #E8E0DE);
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: 0 10px 36px rgba(43, 35, 37, 0.06);
+}
+
+.booking-form-header {
+  margin-bottom: 24px;
+}
+
+.selected-summary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary-subtle, #FAF0EC);
+  color: var(--color-primary, #7A1C2E);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.consultation-auth-prompt-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #FFF8E6;
+  border: 1px solid #FFE08A;
+  color: #7A5200;
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+}
+
+.consultation-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFF1F0;
+  border: 1px solid #FFA39E;
+  color: #CF1322;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+
+.consultation-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .form-two-col-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-submit-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (min-width: 600px) {
+  .form-submit-row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* ── Success Card ── */
+.consultation-success-card {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border, #E8E0DE);
+  border-radius: 24px;
+  padding: 44px 32px;
+  text-align: center;
+  box-shadow: 0 16px 44px rgba(43, 35, 37, 0.08);
+}
+
+.consultation-success-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #F6FFED;
+  color: #52C41A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.consultation-success-details {
+  background: #FAF7F6;
+  border: 1px solid var(--color-border, #E8E0DE);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: right;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-text-main);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+  padding-bottom: 8px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.status-pill-pending {
+  background: #FFF7E6;
+  color: #D46B08;
+  border: 1px solid #FFD591;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .consultations-page-wrapper {
+    padding-top: 75px;
+    padding-bottom: 45px;
+  }
+
+  .booking-form-card,
+  .consultation-success-card {
+    padding: 24px 18px;
+  }
+
+  .consultations-sub-pill {
+    font-size: 13px;
+    padding: 8px 14px;
+    text-align: right;
+  }
+
+  .form-submit-row button {
+    width: 100%;
   }
 }

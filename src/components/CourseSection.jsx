@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { ACADEMY_DATA } from '../data/courseData';
+import { Sparkles, GraduationCap, UserCheck, HelpCircle } from 'lucide-react';
+import LuxuryPillarsSection from './LuxuryPillarsSection';
 
 export default function CourseSection() {
-  const { openEnrollModal, openBookingModal, openApplicationModal, openAuthModal, currentUser } = useApp();
+  const { openEnrollModal, openApplicationModal, currentUser } = useApp();
   const [expandedUnit, setExpandedUnit] = useState(null);
+  const [isOffersOpen, setIsOffersOpen] = useState(false);
   const { modules } = ACADEMY_DATA;
 
   const toggleUnit = (num) => {
@@ -14,18 +17,8 @@ export default function CourseSection() {
   return (
     <section id="course" className="course-section" aria-label="الكورس والمسارات التدريبية">
       <div className="container">
-        {/* Course Intro */}
-        <div className="course-intro-box">
-          <div className="section-eyebrow caption-3">المسارات التدريبية</div>
-          <h2 className="section-title heading-2">مسارك المخصص في التعلّم</h2>
-          <p className="body-2" style={{ color: 'var(--color-text-muted)' }}>
-            منهج متكامل مسجّل بجودة سينمائية فائقة باللغة العربية، من الأساسيات إلى الاحتراف الكامل. اختاري المسار الذي يناسب طموحك.
-          </p>
-        </div>
-
-        {/* Tracks Grid (Nested Radius B3 & Mathematical Spacing B2) */}
+        {/* Course Card */}
         <div className="track-cards-grid track-cards-grid--single">
-          {/* Card: Professional (Haute Couture Featured) */}
           <div className="track-card-pro">
             <div dir="ltr" className="track-tag-latin" style={{ color: 'var(--color-accent-soft)' }}>
               PROFESSIONAL · المسار الاحترافي الشامل
@@ -45,17 +38,44 @@ export default function CourseSection() {
               </span>
             </div>
 
-            <button
-              onClick={() => openEnrollModal('pro')}
-              className="track-card-btn track-card-btn--white"
-            >
-              <span>اختاري مسار الاحتراف الكامل</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M11 6l-6 6 6 6"></path>
-              </svg>
-            </button>
+            {/* الأزرار الثلاثة المطلوبة */}
+            <div className="course-action-buttons-group">
+              <button
+                type="button"
+                onClick={() => setIsOffersOpen(!isOffersOpen)}
+                className="course-action-btn course-action-btn--what-we-offer"
+              >
+                <Sparkles size={17} />
+                <span>{isOffersOpen ? 'إخفاء ما تقدمه الأكاديمية' : 'ماذا تقدم الأكاديمية'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openEnrollModal('pro')}
+                className="course-action-btn course-action-btn--pro"
+              >
+                <GraduationCap size={17} />
+                <span>اشتراك مهني (المسار الاحترافي)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openEnrollModal('self')}
+                className="course-action-btn course-action-btn--personal"
+              >
+                <UserCheck size={17} />
+                <span>اشتراك شخصي (أتعلّم لنفسي)</span>
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* كولابسيبل: ماذا تقدم الأكاديمية */}
+        {isOffersOpen && (
+          <div className="course-offers-expanded-box" style={{ marginTop: '24px' }}>
+            <LuxuryPillarsSection />
+          </div>
+        )}
 
         {/* ── CTA: تقديم استمارة الالتحاق الرسمية ── */}
         <div className="course-application-cta">
