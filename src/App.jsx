@@ -67,7 +67,7 @@ function AppContent() {
             <CourseSection />
             <FreeVideoSection />
             <MakeupShowcase />
-            <CtaBanner />
+            {/* <CtaBanner /> */}
           </>
         )}
       </main>

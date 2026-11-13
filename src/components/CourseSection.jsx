@@ -42,11 +42,10 @@ export default function CourseSection() {
             <div className="course-action-buttons-group">
               <button
                 type="button"
-                onClick={() => setIsOffersOpen(!isOffersOpen)}
                 className="course-action-btn course-action-btn--what-we-offer"
               >
                 <Sparkles size={17} />
-                <span>{isOffersOpen ? 'إخفاء ما تقدمه الأكاديمية' : 'ماذا تقدم الأكاديمية'}</span>
+                <span>ماذا تقدم الأكاديمية</span>
               </button>
 
               <button
@@ -69,13 +68,6 @@ export default function CourseSection() {
             </div>
           </div>
         </div>
-
-        {/* كولابسيبل: ماذا تقدم الأكاديمية */}
-        {isOffersOpen && (
-          <div className="course-offers-expanded-box" style={{ marginTop: '24px' }}>
-            <LuxuryPillarsSection />
-          </div>
-        )}
 
         {/* ── CTA: تقديم استمارة الالتحاق الرسمية ── */}
         <div className="course-application-cta">

@@ -235,6 +235,27 @@
     padding-top: var(--spacing-400);
   }
 
+  /* Course action buttons group inside track-card-pro on mobile */
+  .course-action-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .course-action-btn {
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 13px;
+    gap: 7px;
+    border-radius: var(--radius-sm, 8px);
+  }
+
+  .course-action-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
   /* Luxury pillar cards */
   .luxury-pillar-card {
     padding: var(--spacing-200) var(--spacing-200);

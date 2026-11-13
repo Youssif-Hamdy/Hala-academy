@@ -5547,6 +5547,25 @@
   margin-bottom: 18px;
 }
 
+.consultation-package-card--minimal {
+  padding: 24px 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.consultation-package-card--minimal .package-duration-pill {
+  font-size: 14px;
+  padding: 8px 18px;
+}
+
+.consultation-package-card--minimal .package-price-wrap {
+  justify-content: center;
+}
+
+.consultation-package-card--minimal .package-price-wrap .price-amount {
+  font-size: 44px;
+}
+
 .package-features-list {
   list-style: none;
   padding: 0;

@@ -6,46 +6,18 @@ import { Clock, CheckCircle2, Video, Sparkles, MessageCircle, AlertCircle, Arrow
 const PACKAGES = [
   {
     duration: 30,
-    price: 20,
-    title: 'جلسة سريعة ومركزة',
-    subtitle: 'إجابات مباشرة على استفسارات محددة',
-    badge: 'الأسرع والأخف',
-    popular: false,
-    features: [
-      '30 دقيقة استشارة فردية ومباشرة',
-      'فحص سريع لروتينكِ أو مستحضراتكِ الحالية',
-      'إجابة مركزة على أسئلة محددة في المكياج',
-      'جلسة فيديو أونلاين خاصة ومغلقة'
-    ]
+    durationLabel: '30 دقيقة',
+    price: 20
   },
   {
     duration: 60,
-    price: 30,
-    title: 'استشارة شاملة ومكثفة',
-    subtitle: 'تحليل دقيق للملامح وتقنيات المكياج',
-    popular: true,
-    features: [
-      'ساعة كاملة (60 دقيقة) تواصل مباشر مع حلا سامي',
-      'تشخيص ملامح الوجه ورسمة العين المناسبة لكِ',
-      'تحديد درجات الفاونديشن والكونسيلر والباليتات الأنسب لبشرتكِ',
-      'نصائح تطبيقية وتصحيح للأخطاء الشائعة خطوة بخطوة',
-      'توصيات بأفضل المنتجات وبدائلها الاقتصادية'
-    ]
+    durationLabel: '60 دقيقة (ساعة)',
+    price: 30
   },
   {
     duration: 120,
-    price: 40,
-    title: 'استشارة احترافية موسعة',
-    subtitle: 'تطوير شامل للمهارات أو مشاريع التجميل',
-    badge: 'أعلى قيمة تدريبية',
-    popular: false,
-    features: [
-      'ساعتان (120 دقيقة) جلسة خاصة ومتكاملة',
-      'مناسبة لتطوير مشاريعكِ وبناء شنطة الميكب الاحترافية',
-      'توجيه عملي مباشر على ميكب المناسبات أو العمل مع العميلات',
-      'مراجعة شاملة لجميع استفساراتكِ التقنية والمهنية',
-      'خطة متابعة مخصصة بعد الجلسة'
-    ]
+    durationLabel: '120 دقيقة (ساعتان)',
+    price: 40
   }
 ];
 
@@ -205,53 +177,31 @@ export default function ConsultationsPage() {
           </div>
         ) : (
           <>
-            {/* باقات الاستشارة الثلاث */}
-            <div className="consultation-packages-grid">
+            {/* باقات الاستشارة الثلاث (السعر والمدة فقط) */}
+            <div className="consultation-packages-grid consultation-packages-grid--minimal">
               {PACKAGES.map((pkg) => {
                 const isSelected = selectedDuration === pkg.duration;
                 return (
                   <div
                     key={pkg.duration}
                     onClick={() => handlePackageSelect(pkg.duration)}
-                    className={`consultation-package-card ${isSelected ? 'is-selected' : ''} ${pkg.popular ? 'is-popular' : ''}`}
+                    className={`consultation-package-card consultation-package-card--minimal ${isSelected ? 'is-selected' : ''}`}
                     role="button"
                     tabIndex={0}
                     aria-pressed={isSelected}
                   >
-                    {pkg.badge && (
-                      <div className="package-badge-tag">
-                        {pkg.popular && <Sparkles size={12} />}
-                        <span>{pkg.badge}</span>
-                      </div>
-                    )}
-
-                    <div className="package-card-header">
-                      <div className="package-duration-pill">
-                        <Clock size={16} />
-                        <span>{pkg.duration} دقيقة</span>
-                      </div>
-                      <div className="package-price-wrap">
-                        <span className="price-currency">$</span>
-                        <span className="price-amount">{pkg.price}</span>
-                        <span className="price-period">دولار</span>
-                      </div>
+                    <div className="package-duration-pill">
+                      <Clock size={16} />
+                      <span>{pkg.durationLabel}</span>
                     </div>
 
-                    <h3 className="package-title title-1">{pkg.title}</h3>
-                    <p className="package-subtitle caption-2">{pkg.subtitle}</p>
+                    <div className="package-price-wrap" style={{ margin: '16px 0 20px' }}>
+                      <span className="price-currency">$</span>
+                      <span className="price-amount">{pkg.price}</span>
+                      <span className="price-period">دولار</span>
+                    </div>
 
-                    <div className="package-divider" />
-
-                    <ul className="package-features-list">
-                      {pkg.features.map((feat, i) => (
-                        <li key={i}>
-                          <CheckCircle2 size={16} className="feature-check-icon" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="package-select-action">
+                    <div className="package-select-action" style={{ width: '100%' }}>
                       <button
                         type="button"
                         className={`package-select-btn ${isSelected ? 'is-selected' : ''}`}
@@ -260,7 +210,7 @@ export default function ConsultationsPage() {
                           handlePackageSelect(pkg.duration);
                         }}
                       >
-                        {isSelected ? 'الباقة المختارة حالياً ✓' : 'اختيار هذه الباقة'}
+                        {isSelected ? 'تم الاختيار ✓' : 'اختيار'}
                       </button>
                     </div>
                   </div>
